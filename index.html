@@ -103,16 +103,156 @@ h1 em { font-style:italic;font-weight:300;color:#6fdecf; }
 .btn-danger:hover { background:#fecaca; }
 
 /* LAYOUT */
-.layout { margin-top:24px;display:grid;grid-template-columns:248px minmax(0,1fr);gap:24px;align-items:start; }
+.layout { margin-top:24px;display:grid;grid-template-columns:268px minmax(0,1fr);gap:24px;align-items:start; }
 
-/* SIDEBAR */
-aside { position:sticky;top:102px;background:rgba(250,248,243,.92);border:1px solid rgba(40,32,20,.08);border-radius:var(--radius-lg);padding:20px 16px;box-shadow:var(--shadow);backdrop-filter:blur(14px); }
-.aside-header { font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);padding:0 8px 14px;border-bottom:1px solid var(--border);margin-bottom:10px; }
-.category-list { display:grid;gap:4px; }
-.category-link { display:block;text-decoration:none;color:var(--muted);padding:10px 12px;border-radius:12px;font-size:13.5px;font-weight:500;border:1px solid transparent;transition:all var(--transition); }
-.category-link:hover { background:var(--teal-pale);color:var(--teal-2); }
-.category-link.active { background:var(--teal-light);color:var(--teal-2);font-weight:700;border-color:rgba(10,107,104,.12); }
-.aside-divider { height:1px;background:var(--border);margin:16px 0; }
+/* ===== SIDEBAR ===== */
+aside {
+  position: sticky;
+  top: 102px;
+  background: rgba(250,248,243,.95);
+  border: 1px solid rgba(40,32,20,.08);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(14px);
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(10,107,104,.2) transparent;
+}
+aside::-webkit-scrollbar { width: 4px; }
+aside::-webkit-scrollbar-track { background: transparent; }
+aside::-webkit-scrollbar-thumb { background: rgba(10,107,104,.2); border-radius: 4px; }
+
+.aside-inner { padding: 18px 14px 20px; }
+
+.aside-header {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--faint);
+  padding: 0 8px 14px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 12px;
+}
+
+/* DEPT GROUP */
+.dept-group { margin-bottom: 6px; }
+
+.dept-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 9px 10px;
+  border-radius: 11px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  text-align: left;
+  transition: background var(--transition), color var(--transition);
+  justify-content: space-between;
+}
+.dept-toggle:hover { background: var(--teal-pale); color: var(--teal-2); }
+.dept-toggle.open { background: var(--teal-light); color: var(--teal-2); }
+
+.dept-toggle-left { display: flex; align-items: center; gap: 8px; }
+.dept-icon { font-size: 1rem; line-height: 1; }
+.dept-count {
+  margin-left: auto;
+  margin-right: 4px;
+  background: rgba(10,107,104,.12);
+  color: var(--teal-2);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 999px;
+  min-width: 22px;
+  text-align: center;
+}
+.dept-toggle.open .dept-count { background: rgba(10,107,104,.2); }
+
+.dept-chevron {
+  flex-shrink: 0;
+  color: var(--faint);
+  transition: transform .2s;
+}
+.dept-toggle.open .dept-chevron { transform: rotate(180deg); }
+
+/* PROMPT LINKS LIST */
+.prompt-links {
+  display: none;
+  flex-direction: column;
+  gap: 1px;
+  padding: 4px 0 8px 0;
+}
+.prompt-links.open { display: flex; }
+
+.prompt-link {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 7px 10px 7px 14px;
+  border-radius: 9px;
+  text-decoration: none;
+  color: var(--muted);
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 1.4;
+  border: 1px solid transparent;
+  transition: all var(--transition);
+  position: relative;
+}
+.prompt-link::before {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--faint);
+  flex-shrink: 0;
+}
+.prompt-link:hover {
+  background: var(--teal-pale);
+  color: var(--teal-2);
+  border-color: rgba(10,107,104,.08);
+}
+.prompt-link:hover::before { background: var(--teal); }
+.prompt-link.active {
+  background: var(--teal-light);
+  color: var(--teal-2);
+  font-weight: 600;
+  border-color: rgba(10,107,104,.14);
+}
+.prompt-link.active::before { background: var(--teal); width: 4px; height: 4px; }
+
+.prompt-num {
+  flex-shrink: 0;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--faint);
+  background: rgba(160,152,144,.12);
+  padding: 1px 5px;
+  border-radius: 5px;
+  margin-top: 1px;
+  line-height: 1.4;
+  min-width: 18px;
+  text-align: center;
+}
+.prompt-link.active .prompt-num {
+  background: rgba(10,107,104,.18);
+  color: var(--teal-2);
+}
+
+.aside-divider { height:1px;background:var(--border);margin:14px 0; }
 .aside-tip { font-size:12px;color:var(--faint);line-height:1.6;padding:0 8px; }
 .aside-tip strong { color:var(--muted); }
 
@@ -132,7 +272,7 @@ aside { position:sticky;top:102px;background:rgba(250,248,243,.92);border:1px so
 
 /* CARDS */
 .cards { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px; }
-.card { background:var(--surface);border:1px solid rgba(40,32,20,.08);border-radius:var(--radius-lg);box-shadow:var(--shadow);overflow:hidden;transition:box-shadow var(--transition),transform var(--transition); }
+.card { background:var(--surface);border:1px solid rgba(40,32,20,.08);border-radius:var(--radius-lg);box-shadow:var(--shadow);overflow:hidden;transition:box-shadow var(--transition),transform var(--transition); scroll-margin-top: 120px; }
 .card:hover { transform:translateY(-3px);box-shadow:var(--shadow-lg); }
 .card-top { padding:22px 22px 16px;border-bottom:1px solid rgba(40,32,20,.06);background:linear-gradient(180deg,rgba(212,238,236,.28) 0%,transparent 100%); }
 .badges { display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;align-items:center; }
@@ -142,7 +282,6 @@ aside { position:sticky;top:102px;background:rgba(250,248,243,.92);border:1px so
 .badge--green { background:var(--green-light);color:var(--green);border-color:rgba(26,107,58,.14); }
 .badge--red   { background:var(--red-light);color:var(--red);border-color:rgba(185,28,28,.14); }
 
-/* SECURITY BANNER — prominent for Accounts cards */
 .security-banner { display:flex;align-items:flex-start;gap:10px;background:#fff7ed;border:1.5px solid #fed7aa;border-radius:12px;padding:10px 14px;margin-bottom:14px; }
 .security-banner-icon { font-size:1.1rem;flex-shrink:0;margin-top:1px; }
 .security-banner-text { font-size:12px;color:#92400e;line-height:1.5; }
@@ -151,19 +290,16 @@ aside { position:sticky;top:102px;background:rgba(250,248,243,.92);border:1px so
 .card h3 { font-size:1.1rem;font-weight:700;letter-spacing:-.02em;margin-bottom:8px; }
 .card .desc { color:var(--muted);font-size:13.5px;line-height:1.55; }
 
-/* BEST IN MODELS ROW */
 .model-row { display:flex;align-items:center;gap:6px;margin-top:12px;flex-wrap:wrap; }
 .model-label { font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);margin-right:2px; }
 .model-pill { display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:999px;font-size:11.5px;font-weight:600;border:1px solid var(--border);background:#fff;color:var(--muted); }
 .model-pill.best { background:var(--teal-pale);color:var(--teal-2);border-color:rgba(10,107,104,.18); }
 
-/* PROMPT AREA */
 .prompt-wrap { padding:18px 22px 20px; }
 .prompt-meta { display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-size:11.5px;font-weight:700;color:var(--faint);letter-spacing:.03em;text-transform:uppercase; }
 textarea { width:100%;min-height:190px;border-radius:14px;border:1px solid rgba(40,32,20,.10);background:#fff;color:var(--text);padding:14px 16px;font:500 13px/1.65 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;resize:vertical;transition:border-color var(--transition);box-shadow:inset 0 1px 3px rgba(15,10,5,.04); }
 textarea:focus { outline:none;border-color:var(--teal); }
 
-/* ACTIONS */
 .actions { display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:14px; }
 .btn-copy { padding:10px 18px;border-radius:12px;border:none;background:var(--teal);color:#fff;font-family:var(--font-body);font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(10,107,104,.22);transition:transform var(--transition),box-shadow var(--transition); }
 .btn-copy:hover { transform:translateY(-1px);box-shadow:0 7px 20px rgba(10,107,104,.3); }
@@ -173,7 +309,6 @@ textarea:focus { outline:none;border-color:var(--teal); }
 .status.visible { opacity:1; }
 .card.inserted { border-left:4px solid var(--teal) !important; }
 
-/* WHY THIS WORKS — expandable tip */
 .prompt-tip-toggle { display:flex;align-items:center;gap:7px;background:none;border:none;cursor:pointer;font-family:var(--font-body);font-size:12px;font-weight:600;color:var(--faint);padding:0;margin-top:12px;transition:color var(--transition); }
 .prompt-tip-toggle:hover { color:var(--teal); }
 .prompt-tip-toggle svg { transition:transform .2s; }
@@ -182,13 +317,11 @@ textarea:focus { outline:none;border-color:var(--teal); }
 .prompt-tip-box.visible { display:block; }
 .prompt-tip-box strong { display:block;margin-bottom:4px;font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--teal); }
 
-/* FOOTER */
 .footer-note { text-align:center;color:var(--faint);font-size:13px;margin-top:20px;padding-top:28px;border-top:1px solid var(--border); }
 .hidden { display:none !important; }
 
-/* RESPONSIVE */
 @media (max-width:1200px) { .metrics{grid-template-columns:repeat(2,1fr)} .cards{grid-template-columns:1fr} }
-@media (max-width:960px) { .toolbar{grid-template-columns:1fr 1fr} .toolbar-search{grid-column:1/-1} .layout{grid-template-columns:1fr} aside{position:relative;top:0} .category-list{grid-template-columns:repeat(2,1fr)} }
+@media (max-width:960px) { .toolbar{grid-template-columns:1fr 1fr} .toolbar-search{grid-column:1/-1} .layout{grid-template-columns:1fr} aside{position:relative;top:0;max-height:none} }
 @media (max-width:640px) { .shell{padding:14px 14px 48px} .hero{padding:30px 22px 28px;border-radius:28px} h1{font-size:3rem} .metrics{grid-template-columns:repeat(2,1fr)} .toolbar{grid-template-columns:1fr} .hero-panels{grid-template-columns:1fr} }
 </style>
 </head>
@@ -201,15 +334,9 @@ textarea:focus { outline:none;border-color:var(--teal); }
   <div class="hero-bg-orb hero-bg-orb--2"></div>
   <div class="hero-bg-orb hero-bg-orb--3"></div>
   <div class="hero-content">
-
     <div style="margin-bottom:20px;">
-      <img
-  src="Untitled design (3).svg"
-  alt="Logo"
-  style="height:100px;width:auto;display:block;filter:brightness(0) invert(1);"
->
+      <img src="Untitled design (3).svg" alt="Logo" style="height:100px;width:auto;display:block;filter:brightness(0) invert(1);">
     </div>
-
     <div class="eyebrow"><span class="eyebrow-dot"></span> Internal · AI Prompt Handbook · v2.0</div>
     <h1>Your AI<br><em>Copilot</em><br>Handbook</h1>
     <p class="hero-lead">Inject your JD or resume once — every linked prompt updates instantly. 32 prompts across HR, Sales & Accounts. No sensitive data ever leaves your screen.</p>
@@ -223,7 +350,6 @@ textarea:focus { outline:none;border-color:var(--teal); }
   </div>
 
   <div class="hero-panels">
-    <!-- JD Panel -->
     <div class="hero-panel">
       <div class="panel-label panel-label--teal">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
@@ -232,8 +358,6 @@ textarea:focus { outline:none;border-color:var(--teal); }
       <textarea id="global-jd" rows="5" placeholder="Paste the full Job Description here… All JD-linked prompts will update instantly."></textarea>
       <button class="panel-btn panel-btn--teal" onclick="insertGlobalJD()">⚡ Inject JD into All Prompts</button>
     </div>
-
-    <!-- Resume Panel -->
     <div class="hero-panel">
       <div class="panel-label panel-label--amber">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
@@ -242,8 +366,6 @@ textarea:focus { outline:none;border-color:var(--teal); }
       <textarea id="global-resume" rows="5" placeholder="Paste candidate resume text here (anonymize name/contact first)…"></textarea>
       <button class="panel-btn panel-btn--amber" onclick="insertGlobalResume()">⚡ Inject Resume into All Prompts</button>
     </div>
-
-    <!-- Job Title Panel -->
     <div class="hero-panel">
       <div class="panel-label panel-label--lilac">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -253,8 +375,6 @@ textarea:focus { outline:none;border-color:var(--teal); }
       <div class="panel-hint">Updates all prompts that include [[JOB_TITLE]]</div>
       <button class="panel-btn panel-btn--lilac" onclick="insertGlobalJobTitle()">⚡ Inject Job Title</button>
     </div>
-
-    <!-- Reset All Panel -->
     <div class="hero-panel">
       <div class="panel-label panel-label--red">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.95"/></svg>
@@ -282,29 +402,31 @@ textarea:focus { outline:none;border-color:var(--teal); }
 
 <!-- LAYOUT -->
 <div class="layout">
+
+  <!-- ===== SIDEBAR ===== -->
   <aside>
-    <div class="aside-header">Departments</div>
-    <div class="category-list" id="categoryNav"></div>
-    <div class="aside-divider"></div>
-    <div class="aside-tip">
-      <strong>Pro tip:</strong> Use the global panels above to inject your JD or resume into every linked prompt in one click. Then copy individual prompts to ChatGPT or Claude.
-    </div>
-    <div class="aside-divider"></div>
-    <div class="aside-tip">
-      <strong>🔒 Security rule:</strong> Always anonymize real names, client names, dollar amounts, and personal data before pasting into any AI tool. Use codes like VENDOR_A or CANDIDATE_1.
-    </div>
-    <div class="aside-divider"></div>
-    <div class="aside-tip">
-      <strong>Sensitive data?</strong> Run Ollama locally — no cloud, no risk. Ask IT to set it up.
+    <div class="aside-inner">
+      <div class="aside-header">Quick Navigation</div>
+      <div id="categoryNav"></div>
+      <div class="aside-divider"></div>
+      <div class="aside-tip">
+        <strong>Pro tip:</strong> Use the global panels above to inject your JD or resume into every linked prompt in one click. Then copy individual prompts to ChatGPT or Claude.
+      </div>
+      <div class="aside-divider"></div>
+      <div class="aside-tip">
+        <strong>🔒 Security rule:</strong> Always anonymize real names, client names, dollar amounts, and personal data before pasting into any AI tool. Use codes like VENDOR_A or CANDIDATE_1.
+      </div>
+      <div class="aside-divider"></div>
+      <div class="aside-tip">
+        <strong>Sensitive data?</strong> Run Ollama locally — no cloud, no risk. Ask IT to set it up.
+      </div>
     </div>
   </aside>
 
   <main>
     <div class="metrics" id="overview"></div>
 
-    <!-- ============================================================
-         HR / RECRUITERS
-    ============================================================ -->
+    <!-- ============================================================ HR ============================================================ -->
     <div class="section" id="section-hr-recruiters">
       <div class="section-head">
         <div class="section-icon">👥</div>
@@ -315,19 +437,10 @@ textarea:focus { outline:none;border-color:var(--teal); }
       </div>
       <div class="cards">
 
-        <!-- HR 1: Req Intake -->
-        <div class="card" data-category="HR / Recruiters" data-title="Req Intake from Email" data-search="req intake email boolean jd parse extract skills salary timeline">
+        <div class="card" id="card-hr-1" data-category="HR / Recruiters" data-title="Req Intake from Email" data-search="req intake email boolean jd parse extract skills salary timeline">
           <div class="card-top">
-            <div class="badges">
-              <span class="badge">Sourcing</span>
-              <span class="badge badge--green">High Impact</span>
-            </div>
-            <div class="model-row">
-              <span class="model-label">Best in:</span>
-              <span class="model-pill best">Claude</span>
-              <span class="model-pill best">ChatGPT-4o</span>
-              <span class="model-pill">Gemini</span>
-            </div>
+            <div class="badges"><span class="badge">Sourcing</span><span class="badge badge--green">High Impact</span></div>
+            <div class="model-row"><span class="model-label">Best in:</span><span class="model-pill best">Claude</span><span class="model-pill best">ChatGPT-4o</span><span class="model-pill">Gemini</span></div>
             <h3 style="margin-top:12px;">1. Req Intake from Email</h3>
             <p class="desc">Paste a raw client email and get a structured req summary, LinkedIn Boolean string, and 3 outreach templates in JSON.</p>
           </div>
@@ -350,35 +463,16 @@ Output as JSON: { req_summary, boolean_string, templates: [formal, casual, urgen
 3. Write 3 outreach InMail templates (formal / casual / urgent) each under 180 words.
 
 Output as JSON: { req_summary, boolean_string, templates: [formal, casual, urgent] }</textarea>
-            <button class="prompt-tip-toggle" onclick="toggleTip(this)">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-              Why this prompt works
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
-            <div class="prompt-tip-box">
-              <strong>Why it works</strong>
-              Asking the AI to "be" Rob grounds it in your company context. Requesting JSON output forces structure instead of prose, making it easy to copy individual fields directly into your ATS or email. Combining extraction + boolean + templates in one call saves ~20 minutes per req.
-            </div>
-            <div class="actions">
-              <button class="btn-copy">📋 Copy Prompt</button>
-              <button class="btn-reset">↺ Reset</button>
-              <span class="status"></span>
-            </div>
+            <button class="prompt-tip-toggle" onclick="toggleTip(this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Why this prompt works<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
+            <div class="prompt-tip-box"><strong>Why it works</strong>Asking the AI to "be" Rob grounds it in your company context. Requesting JSON output forces structure instead of prose, making it easy to copy individual fields directly into your ATS or email. Combining extraction + boolean + templates in one call saves ~20 minutes per req.</div>
+            <div class="actions"><button class="btn-copy">📋 Copy Prompt</button><button class="btn-reset">↺ Reset</button><span class="status"></span></div>
           </div>
         </div>
 
-        <!-- HR 2: Resume Screening -->
-        <div class="card" data-category="HR / Recruiters" data-title="Resume Screening & Scoring" data-search="resume screen rank score gaps interview questions bias" data-jd="true" data-resume="true">
+        <div class="card" id="card-hr-2" data-category="HR / Recruiters" data-title="Resume Screening & Scoring" data-search="resume screen rank score gaps interview questions bias" data-jd="true" data-resume="true">
           <div class="card-top">
-            <div class="badges">
-              <span class="badge">Screening</span>
-              <span class="badge badge--amber">JD + Resume</span>
-            </div>
-            <div class="model-row">
-              <span class="model-label">Best in:</span>
-              <span class="model-pill best">Claude</span>
-              <span class="model-pill best">ChatGPT-4o</span>
-            </div>
+            <div class="badges"><span class="badge">Screening</span><span class="badge badge--amber">JD + Resume</span></div>
+            <div class="model-row"><span class="model-label">Best in:</span><span class="model-pill best">Claude</span><span class="model-pill best">ChatGPT-4o</span></div>
             <h3 style="margin-top:12px;">2. Resume Screening & Scoring</h3>
             <p class="desc">Batch-rank anonymized resumes against a JD. Get fit scores, gap analysis, and interview questions per candidate.</p>
           </div>
@@ -407,35 +501,16 @@ For each resume, output a table row:
 Resume # | Fit Score (1–10) | Top 3 Strengths | Critical Gaps | 3 Tailored Interview Questions
 
 Be objective. Do not infer gender, age, ethnicity. Focus solely on skills and experience match.</textarea>
-            <button class="prompt-tip-toggle" onclick="toggleTip(this)">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-              Why this prompt works
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
-            <div class="prompt-tip-box">
-              <strong>Why it works</strong>
-              The explicit bias-free instruction reduces AI tendency to pattern-match on names or schools. Asking for a structured table makes output scannable in seconds. Injecting both JD and Resume via the global panels means you don't have to re-paste for every screen.
-            </div>
-            <div class="actions">
-              <button class="btn-copy">📋 Copy Prompt</button>
-              <button class="btn-reset">↺ Reset</button>
-              <span class="status"></span>
-            </div>
+            <button class="prompt-tip-toggle" onclick="toggleTip(this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Why this prompt works<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
+            <div class="prompt-tip-box"><strong>Why it works</strong>The explicit bias-free instruction reduces AI tendency to pattern-match on names or schools. Asking for a structured table makes output scannable in seconds. Injecting both JD and Resume via the global panels means you don't have to re-paste for every screen.</div>
+            <div class="actions"><button class="btn-copy">📋 Copy Prompt</button><button class="btn-reset">↺ Reset</button><span class="status"></span></div>
           </div>
         </div>
 
-        <!-- HR 3: LinkedIn InMail -->
-        <div class="card" data-category="HR / Recruiters" data-title="Personalized LinkedIn InMail" data-search="outreach inmail linkedin personalized candidate message hook" data-jd="true">
+        <div class="card" id="card-hr-3" data-category="HR / Recruiters" data-title="Personalized LinkedIn InMail" data-search="outreach inmail linkedin personalized candidate message hook" data-jd="true">
           <div class="card-top">
-            <div class="badges">
-              <span class="badge">Outreach</span>
-              <span class="badge badge--lilac">Personalization</span>
-            </div>
-            <div class="model-row">
-              <span class="model-label">Best in:</span>
-              <span class="model-pill best">Claude</span>
-              <span class="model-pill">ChatGPT-4o</span>
-            </div>
+            <div class="badges"><span class="badge">Outreach</span><span class="badge badge--lilac">Personalization</span></div>
+            <div class="model-row"><span class="model-label">Best in:</span><span class="model-pill best">Claude</span><span class="model-pill">ChatGPT-4o</span></div>
             <h3 style="margin-top:12px;">3. Personalized LinkedIn InMail</h3>
             <p class="desc">Generate a compelling InMail using the candidate's profile and your JD. Professional, urgent, under 200 words.</p>
           </div>
@@ -468,35 +543,16 @@ Rules:
 - Under 200 words
 - No generic opener like 'Hope this finds you well'
 - No emojis</textarea>
-            <button class="prompt-tip-toggle" onclick="toggleTip(this)">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-              Why this prompt works
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
-            <div class="prompt-tip-box">
-              <strong>Why it works</strong>
-              Negative rules ("no generic opener", "no emojis") are just as powerful as positive ones — they prevent the AI from defaulting to clichéd recruiter language that candidates ignore. The pain-point angle doubles reply rates compared to feature-listing outreach.
-            </div>
-            <div class="actions">
-              <button class="btn-copy">📋 Copy Prompt</button>
-              <button class="btn-reset">↺ Reset</button>
-              <span class="status"></span>
-            </div>
+            <button class="prompt-tip-toggle" onclick="toggleTip(this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Why this prompt works<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
+            <div class="prompt-tip-box"><strong>Why it works</strong>Negative rules ("no generic opener", "no emojis") are just as powerful as positive ones — they prevent the AI from defaulting to clichéd recruiter language that candidates ignore. The pain-point angle doubles reply rates compared to feature-listing outreach.</div>
+            <div class="actions"><button class="btn-copy">📋 Copy Prompt</button><button class="btn-reset">↺ Reset</button><span class="status"></span></div>
           </div>
         </div>
 
-        <!-- HR 4: LinkedIn Cold DM (NEW) -->
-        <div class="card" data-category="HR / Recruiters" data-title="LinkedIn Cold DM (Short Form)" data-search="linkedin dm direct message cold short mobile outreach connection request" data-jd="true">
+        <div class="card" id="card-hr-4" data-category="HR / Recruiters" data-title="LinkedIn Cold DM (Short Form)" data-search="linkedin dm direct message cold short mobile outreach connection request" data-jd="true">
           <div class="card-top">
-            <div class="badges">
-              <span class="badge">Outreach</span>
-              <span class="badge badge--green">NEW</span>
-            </div>
-            <div class="model-row">
-              <span class="model-label">Best in:</span>
-              <span class="model-pill best">Claude</span>
-              <span class="model-pill best">ChatGPT-4o</span>
-            </div>
+            <div class="badges"><span class="badge">Outreach</span><span class="badge badge--green">NEW</span></div>
+            <div class="model-row"><span class="model-label">Best in:</span><span class="model-pill best">Claude</span><span class="model-pill best">ChatGPT-4o</span></div>
             <h3 style="margin-top:12px;">4. LinkedIn Cold DM (Short Form)</h3>
             <p class="desc">Most passive candidates read messages on mobile. This prompt generates ultra-short connection-request DMs — no InMail credit needed.</p>
           </div>
@@ -531,35 +587,16 @@ DM rules (critical):
 
 Write 3 variants: direct / curiosity / social-proof angle.
 Label each variant clearly.</textarea>
-            <button class="prompt-tip-toggle" onclick="toggleTip(this)">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-              Why this prompt works
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
-            <div class="prompt-tip-box">
-              <strong>Why it works</strong>
-              LinkedIn DMs are a completely different format from InMail — shorter, more casual, read on phones. The 300-character constraint forces the AI to lead with value immediately. Three variants let you A/B test and find what lands best with your target candidate pool.
-            </div>
-            <div class="actions">
-              <button class="btn-copy">📋 Copy Prompt</button>
-              <button class="btn-reset">↺ Reset</button>
-              <span class="status"></span>
-            </div>
+            <button class="prompt-tip-toggle" onclick="toggleTip(this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Why this prompt works<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
+            <div class="prompt-tip-box"><strong>Why it works</strong>LinkedIn DMs are a completely different format from InMail — shorter, more casual, read on phones. The 300-character constraint forces the AI to lead with value immediately. Three variants let you A/B test and find what lands best with your target candidate pool.</div>
+            <div class="actions"><button class="btn-copy">📋 Copy Prompt</button><button class="btn-reset">↺ Reset</button><span class="status"></span></div>
           </div>
         </div>
 
-        <!-- HR 5: Boolean Builder -->
-        <div class="card" data-category="HR / Recruiters" data-title="Boolean Search + Title Expander" data-search="boolean linkedin naukri search string sourcing operator title synonym" data-jd="true">
+        <div class="card" id="card-hr-5" data-category="HR / Recruiters" data-title="Boolean Search + Title Expander" data-search="boolean linkedin naukri search string sourcing operator title synonym" data-jd="true">
           <div class="card-top">
-            <div class="badges">
-              <span class="badge">Sourcing</span>
-              <span class="badge badge--green">Boolean</span>
-            </div>
-            <div class="model-row">
-              <span class="model-label">Best in:</span>
-              <span class="model-pill best">ChatGPT-4o</span>
-              <span class="model-pill best">Claude</span>
-            </div>
+            <div class="badges"><span class="badge">Sourcing</span><span class="badge badge--green">Boolean</span></div>
+            <div class="model-row"><span class="model-label">Best in:</span><span class="model-pill best">ChatGPT-4o</span><span class="model-pill best">Claude</span></div>
             <h3 style="margin-top:12px;">5. Boolean Search + Title Expander</h3>
             <p class="desc">Build Boolean strings for LinkedIn/Naukri/Google X-Ray and surface all the alternate titles your candidate might be using.</p>
           </div>
@@ -584,39 +621,20 @@ Deliverables:
 1. LinkedIn Boolean: AND/OR/NOT, location variants, seniority synonyms. Exclude: intern, trainee, fresher, student.
 2. Naukri Boolean: Adapt with Indian location fallbacks for offshore roles.
 3. Google X-Ray: site:linkedin.com/in format, ready to paste into Google.
-4. Title Expansion table: List 8–12 alternate titles this candidate might use on their profile (e.g., "React Native Dev" might also go by "Mobile Engineer", "Cross-Platform Developer", "Expo Developer", "Flutter/RN Dev").
+4. Title Expansion table: List 8–12 alternate titles this candidate might use on their profile.
 5. Flag 2–3 skills that are commonly misspelled or abbreviated differently.
 
 Output each string in a code block.</textarea>
-            <button class="prompt-tip-toggle" onclick="toggleTip(this)">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-              Why this prompt works
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
-            <div class="prompt-tip-box">
-              <strong>Why it works</strong>
-              The title expander is the hidden gem here. A React Native engineer might list themselves as "Mobile Dev", "RN Specialist", or even just "JavaScript Developer" — all invisible to a narrow Boolean. AI knows these synonyms across thousands of job postings in its training data.
-            </div>
-            <div class="actions">
-              <button class="btn-copy">📋 Copy Prompt</button>
-              <button class="btn-reset">↺ Reset</button>
-              <span class="status"></span>
-            </div>
+            <button class="prompt-tip-toggle" onclick="toggleTip(this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Why this prompt works<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
+            <div class="prompt-tip-box"><strong>Why it works</strong>The title expander is the hidden gem here. A React Native engineer might list themselves as "Mobile Dev", "RN Specialist", or even just "JavaScript Developer" — all invisible to a narrow Boolean. AI knows these synonyms across thousands of job postings in its training data.</div>
+            <div class="actions"><button class="btn-copy">📋 Copy Prompt</button><button class="btn-reset">↺ Reset</button><span class="status"></span></div>
           </div>
         </div>
 
-        <!-- HR 6: Interview Questions -->
-        <div class="card" data-category="HR / Recruiters" data-title="Interview Question Bank" data-search="interview questions behavioral rubric scoring competency" data-jd="true">
+        <div class="card" id="card-hr-6" data-category="HR / Recruiters" data-title="Interview Question Bank" data-search="interview questions behavioral rubric scoring competency" data-jd="true">
           <div class="card-top">
-            <div class="badges">
-              <span class="badge">Interviewing</span>
-            </div>
-            <div class="model-row">
-              <span class="model-label">Best in:</span>
-              <span class="model-pill best">Claude</span>
-              <span class="model-pill best">ChatGPT-4o</span>
-              <span class="model-pill">Gemini</span>
-            </div>
+            <div class="badges"><span class="badge">Interviewing</span></div>
+            <div class="model-row"><span class="model-label">Best in:</span><span class="model-pill best">Claude</span><span class="model-pill best">ChatGPT-4o</span><span class="model-pill">Gemini</span></div>
             <h3 style="margin-top:12px;">6. Interview Question Bank</h3>
             <p class="desc">Generate a structured interview kit with behavioral + technical questions and a 1–5 scoring rubric.</p>
           </div>
@@ -643,35 +661,16 @@ Deliver:
 4. Scoring rubric table: Question | 1 (Poor) | 3 (Good) | 5 (Exceptional)
 
 Keep questions bias-free. No leading questions.</textarea>
-            <button class="prompt-tip-toggle" onclick="toggleTip(this)">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-              Why this prompt works
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
-            <div class="prompt-tip-box">
-              <strong>Why it works</strong>
-              Sharing a rubric with the client before interviews positions [YOUR COMPANY] as a strategic partner, not just a resume sender. The 1–5 scoring grid also makes debriefs faster — interviewers fill in numbers, not essays.
-            </div>
-            <div class="actions">
-              <button class="btn-copy">📋 Copy Prompt</button>
-              <button class="btn-reset">↺ Reset</button>
-              <span class="status"></span>
-            </div>
+            <button class="prompt-tip-toggle" onclick="toggleTip(this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Why this prompt works<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
+            <div class="prompt-tip-box"><strong>Why it works</strong>Sharing a rubric with the client before interviews positions [YOUR COMPANY] as a strategic partner, not just a resume sender. The 1–5 scoring grid also makes debriefs faster — interviewers fill in numbers, not essays.</div>
+            <div class="actions"><button class="btn-copy">📋 Copy Prompt</button><button class="btn-reset">↺ Reset</button><span class="status"></span></div>
           </div>
         </div>
 
-        <!-- HR 7: Submission Email (NEW) -->
-        <div class="card" data-category="HR / Recruiters" data-title="Candidate Submission Email to Client" data-search="submission email client submittal candidate profile cover note" data-jd="true" data-resume="true">
+        <div class="card" id="card-hr-7" data-category="HR / Recruiters" data-title="Candidate Submission Email to Client" data-search="submission email client submittal candidate profile cover note" data-jd="true" data-resume="true">
           <div class="card-top">
-            <div class="badges">
-              <span class="badge">Communication</span>
-              <span class="badge badge--green">NEW</span>
-            </div>
-            <div class="model-row">
-              <span class="model-label">Best in:</span>
-              <span class="model-pill best">Claude</span>
-              <span class="model-pill">ChatGPT-4o</span>
-            </div>
+            <div class="badges"><span class="badge">Communication</span><span class="badge badge--green">NEW</span></div>
+            <div class="model-row"><span class="model-label">Best in:</span><span class="model-pill best">Claude</span><span class="model-pill">ChatGPT-4o</span></div>
             <h3 style="margin-top:12px;">7. Candidate Submission Email to Client</h3>
             <p class="desc">Write a polished submission cover note that sells the candidate to the client. Done in seconds, not 15 minutes.</p>
           </div>
@@ -706,41 +705,22 @@ Email structure:
 1. Subject line that highlights the strongest fit angle
 2. Opening: why this candidate stands out for this specific role (2 sentences)
 3. Candidate snapshot: title, years exp, top 3 relevant skills/achievements (bullet points)
-4. One potential gap and how the candidate addresses it (shows we're thorough, not just spamming)
+4. One potential gap and how the candidate addresses it
 5. Availability and preferred interview format
 6. Clear CTA: request an interview slot
 
 Tone: confident, consultative. Under 250 words.
 Do NOT include: candidate's real name, personal contact info, or exact salary.</textarea>
-            <button class="prompt-tip-toggle" onclick="toggleTip(this)">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-              Why this prompt works
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
-            <div class="prompt-tip-box">
-              <strong>Why it works</strong>
-              Acknowledging one gap proactively builds enormous credibility with hiring managers — it signals you've actually read both the JD and the resume, rather than bulk-submitting. This is the single biggest differentiator between a trusted partner and a resume vendor.
-            </div>
-            <div class="actions">
-              <button class="btn-copy">📋 Copy Prompt</button>
-              <button class="btn-reset">↺ Reset</button>
-              <span class="status"></span>
-            </div>
+            <button class="prompt-tip-toggle" onclick="toggleTip(this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Why this prompt works<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
+            <div class="prompt-tip-box"><strong>Why it works</strong>Acknowledging one gap proactively builds enormous credibility with hiring managers — it signals you've actually read both the JD and the resume, rather than bulk-submitting. This is the single biggest differentiator between a trusted partner and a resume vendor.</div>
+            <div class="actions"><button class="btn-copy">📋 Copy Prompt</button><button class="btn-reset">↺ Reset</button><span class="status"></span></div>
           </div>
         </div>
 
-        <!-- HR 8: Counteroffer Handling (NEW) -->
-        <div class="card" data-category="HR / Recruiters" data-title="Counteroffer Handling Script" data-search="counteroffer retention counter offer placed candidate script rebut">
+        <div class="card" id="card-hr-8" data-category="HR / Recruiters" data-title="Counteroffer Handling Script" data-search="counteroffer retention counter offer placed candidate script rebut">
           <div class="card-top">
-            <div class="badges">
-              <span class="badge">Placement</span>
-              <span class="badge badge--green">NEW</span>
-            </div>
-            <div class="model-row">
-              <span class="model-label">Best in:</span>
-              <span class="model-pill best">Claude</span>
-              <span class="model-pill">ChatGPT-4o</span>
-            </div>
+            <div class="badges"><span class="badge">Placement</span><span class="badge badge--green">NEW</span></div>
+            <div class="model-row"><span class="model-label">Best in:</span><span class="model-pill best">Claude</span><span class="model-pill">ChatGPT-4o</span></div>
             <h3 style="margin-top:12px;">8. Counteroffer Handling Script</h3>
             <p class="desc">A candidate just got a retention offer from their current employer. Use this script to navigate the conversation and save the placement.</p>
           </div>
@@ -755,7 +735,7 @@ Context:
 - Days until start date: [NUMBER]
 
 Give me:
-1. A 3-minute phone script to walk them through the 'counteroffer trap' (industry stats on how many people who accept counteroffers still leave within 12 months)
+1. A 3-minute phone script to walk them through the 'counteroffer trap'
 2. 4 questions to ask them that surface why the counteroffer doesn't actually solve their original problem
 3. A closing statement that respects their decision while keeping the door open
 4. A follow-up message to send if they go quiet after the call (under 80 words)
@@ -769,41 +749,22 @@ Context:
 - Days until start date: [NUMBER]
 
 Give me:
-1. A 3-minute phone script to walk them through the 'counteroffer trap' (industry stats on how many people who accept counteroffers still leave within 12 months)
+1. A 3-minute phone script to walk them through the 'counteroffer trap'
 2. 4 questions to ask them that surface why the counteroffer doesn't actually solve their original problem
 3. A closing statement that respects their decision while keeping the door open
 4. A follow-up message to send if they go quiet after the call (under 80 words)
 
 Tone: empathetic, not pushy. Their long-term career matters, not just this placement.</textarea>
-            <button class="prompt-tip-toggle" onclick="toggleTip(this)">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-              Why this prompt works
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
-            <div class="prompt-tip-box">
-              <strong>Why it works</strong>
-              Counteroffer fallout is one of the most preventable losses in staffing. The key is referencing the candidate's original motivations for leaving — which you captured in intake — and showing how a salary bump doesn't fix culture, tech debt, or career growth. This prompt structures that conversation for you.
-            </div>
-            <div class="actions">
-              <button class="btn-copy">📋 Copy Prompt</button>
-              <button class="btn-reset">↺ Reset</button>
-              <span class="status"></span>
-            </div>
+            <button class="prompt-tip-toggle" onclick="toggleTip(this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Why this prompt works<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
+            <div class="prompt-tip-box"><strong>Why it works</strong>Counteroffer fallout is one of the most preventable losses in staffing. The key is referencing the candidate's original motivations for leaving — which you captured in intake — and showing how a salary bump doesn't fix culture, tech debt, or career growth.</div>
+            <div class="actions"><button class="btn-copy">📋 Copy Prompt</button><button class="btn-reset">↺ Reset</button><span class="status"></span></div>
           </div>
         </div>
 
-        <!-- HR 9: Candidate Feedback -->
-        <div class="card" data-category="HR / Recruiters" data-title="Candidate Feedback Email" data-search="feedback rejection candidate constructive next steps email" data-resume="true">
+        <div class="card" id="card-hr-9" data-category="HR / Recruiters" data-title="Candidate Feedback Email" data-search="feedback rejection candidate constructive next steps email" data-resume="true">
           <div class="card-top">
-            <div class="badges">
-              <span class="badge">Communication</span>
-              <span class="badge badge--amber">Retention</span>
-            </div>
-            <div class="model-row">
-              <span class="model-label">Best in:</span>
-              <span class="model-pill best">Claude</span>
-              <span class="model-pill">Gemini</span>
-            </div>
+            <div class="badges"><span class="badge">Communication</span><span class="badge badge--amber">Retention</span></div>
+            <div class="model-row"><span class="model-label">Best in:</span><span class="model-pill best">Claude</span><span class="model-pill">Gemini</span></div>
             <h3 style="margin-top:12px;">9. Candidate Feedback Email</h3>
             <p class="desc">Turn blunt client feedback into professional, empathetic communication. Professional rejections win referrals.</p>
           </div>
@@ -834,35 +795,16 @@ Rewrite this as:
 
 Tone: professional, empathetic, growth-oriented.
 Do NOT mention: client identity, internal politics, or exact dollar figures.</textarea>
-            <button class="prompt-tip-toggle" onclick="toggleTip(this)">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-              Why this prompt works
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
-            <div class="prompt-tip-box">
-              <strong>Why it works</strong>
-              Most agencies send no feedback at all, or a two-line form rejection. A thoughtful rejection email turns a rejected candidate into a referral source and future placement. The "keep the door open" closing is critical — the market is small and memory is long.
-            </div>
-            <div class="actions">
-              <button class="btn-copy">📋 Copy Prompt</button>
-              <button class="btn-reset">↺ Reset</button>
-              <span class="status"></span>
-            </div>
+            <button class="prompt-tip-toggle" onclick="toggleTip(this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Why this prompt works<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
+            <div class="prompt-tip-box"><strong>Why it works</strong>Most agencies send no feedback at all, or a two-line form rejection. A thoughtful rejection email turns a rejected candidate into a referral source and future placement. The "keep the door open" closing is critical — the market is small and memory is long.</div>
+            <div class="actions"><button class="btn-copy">📋 Copy Prompt</button><button class="btn-reset">↺ Reset</button><span class="status"></span></div>
           </div>
         </div>
 
-        <!-- HR 10: 30-60-90 Check-in (NEW) -->
-        <div class="card" data-category="HR / Recruiters" data-title="30-60-90 Day Placed Candidate Check-in" data-search="post placement check in 30 60 90 day onboarding follow up retention">
+        <div class="card" id="card-hr-10" data-category="HR / Recruiters" data-title="30-60-90 Day Check-in Templates" data-search="post placement check in 30 60 90 day onboarding follow up retention">
           <div class="card-top">
-            <div class="badges">
-              <span class="badge">Post-Placement</span>
-              <span class="badge badge--green">NEW</span>
-            </div>
-            <div class="model-row">
-              <span class="model-label">Best in:</span>
-              <span class="model-pill best">Claude</span>
-              <span class="model-pill">ChatGPT-4o</span>
-            </div>
+            <div class="badges"><span class="badge">Post-Placement</span><span class="badge badge--green">NEW</span></div>
+            <div class="model-row"><span class="model-label">Best in:</span><span class="model-pill best">Claude</span><span class="model-pill">ChatGPT-4o</span></div>
             <h3 style="margin-top:12px;">10. 30-60-90 Day Check-in Templates</h3>
             <p class="desc">Three short check-in messages that keep you connected to placed candidates, prevent early turnover, and generate referrals.</p>
           </div>
@@ -873,79 +815,34 @@ Do NOT mention: client identity, internal politics, or exact dollar figures.</te
 Context:
 - Role placed: [JOB TITLE]
 - Placement type: [Contract / Perm / C2H]
-- What I know about them: [1-2 things from intake: e.g., excited about the tech stack, nervous about remote onboarding]
+- What I know about them: [1-2 things from intake]
 
-Message 1 — Day 30 (Email):
-- Casual, genuine, not salesy
-- Ask: how's onboarding going, any surprises?
-- Offer: anything I can help navigate?
-- Under 100 words
-
-Message 2 — Day 60 (LinkedIn DM):
-- Even shorter — this is a pulse check
-- Ask one specific question about their experience
-- Under 60 words
-
-Message 3 — Day 90 (Email):
-- Slightly more strategic
-- Ask: how's the role vs expectations? Any colleagues looking?
-- Soft referral ask, not pushy
-- Under 120 words
+Message 1 — Day 30 (Email): Casual, genuine. Ask how onboarding is going. Under 100 words.
+Message 2 — Day 60 (LinkedIn DM): Pulse check. One specific question. Under 60 words.
+Message 3 — Day 90 (Email): Strategic. Ask about role vs expectations + soft referral ask. Under 120 words.
 
 Tone across all 3: warm, human, not template-sounding.">Write 3 post-placement check-in messages for a recently placed candidate.
 
 Context:
 - Role placed: [JOB TITLE]
 - Placement type: [Contract / Perm / C2H]
-- What I know about them: [1-2 things from intake: e.g., excited about the tech stack, nervous about remote onboarding]
+- What I know about them: [1-2 things from intake]
 
-Message 1 — Day 30 (Email):
-- Casual, genuine, not salesy
-- Ask: how's onboarding going, any surprises?
-- Offer: anything I can help navigate?
-- Under 100 words
-
-Message 2 — Day 60 (LinkedIn DM):
-- Even shorter — this is a pulse check
-- Ask one specific question about their experience
-- Under 60 words
-
-Message 3 — Day 90 (Email):
-- Slightly more strategic
-- Ask: how's the role vs expectations? Any colleagues looking?
-- Soft referral ask, not pushy
-- Under 120 words
+Message 1 — Day 30 (Email): Casual, genuine. Ask how onboarding is going. Under 100 words.
+Message 2 — Day 60 (LinkedIn DM): Pulse check. One specific question. Under 60 words.
+Message 3 — Day 90 (Email): Strategic. Ask about role vs expectations + soft referral ask. Under 120 words.
 
 Tone across all 3: warm, human, not template-sounding.</textarea>
-            <button class="prompt-tip-toggle" onclick="toggleTip(this)">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-              Why this prompt works
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
-            <div class="prompt-tip-box">
-              <strong>Why it works</strong>
-              Most agencies disappear the moment a placement is made. A 30-60-90 cadence catches early issues before they become falloffs, generates referrals at the exact moment the candidate is most enthusiastic about their new role, and builds the kind of loyalty that brings candidates back for their next move.
-            </div>
-            <div class="actions">
-              <button class="btn-copy">📋 Copy Prompt</button>
-              <button class="btn-reset">↺ Reset</button>
-              <span class="status"></span>
-            </div>
+            <button class="prompt-tip-toggle" onclick="toggleTip(this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Why this prompt works<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
+            <div class="prompt-tip-box"><strong>Why it works</strong>Most agencies disappear the moment a placement is made. A 30-60-90 cadence catches early issues before they become falloffs and generates referrals at the exact moment the candidate is most enthusiastic about their new role.</div>
+            <div class="actions"><button class="btn-copy">📋 Copy Prompt</button><button class="btn-reset">↺ Reset</button><span class="status"></span></div>
           </div>
         </div>
 
-        <!-- HR 11: Pipeline Report -->
-        <div class="card" data-category="HR / Recruiters" data-title="Pipeline Status Report" data-search="pipeline report weekly status candidates submission risk">
+        <div class="card" id="card-hr-11" data-category="HR / Recruiters" data-title="Pipeline Status Report" data-search="pipeline report weekly status candidates submission risk">
           <div class="card-top">
-            <div class="badges">
-              <span class="badge">Reporting</span>
-              <span class="badge badge--green">Weekly</span>
-            </div>
-            <div class="model-row">
-              <span class="model-label">Best in:</span>
-              <span class="model-pill best">ChatGPT-4o</span>
-              <span class="model-pill best">Claude</span>
-            </div>
+            <div class="badges"><span class="badge">Reporting</span><span class="badge badge--green">Weekly</span></div>
+            <div class="model-row"><span class="model-label">Best in:</span><span class="model-pill best">ChatGPT-4o</span><span class="model-pill best">Claude</span></div>
             <h3 style="margin-top:12px;">11. Pipeline Status Report</h3>
             <p class="desc">Paste your raw pipeline notes and get a prioritized submission shortlist with risk flags for client updates.</p>
           </div>
@@ -972,29 +869,16 @@ Generate:
 4. Recommended next actions for each at-risk candidate
 
 Format as a concise weekly status memo a client could read in 2 minutes.</textarea>
-            <button class="prompt-tip-toggle" onclick="toggleTip(this)">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-              Why this prompt works
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
-            <div class="prompt-tip-box">
-              <strong>Why it works</strong>
-              The bottleneck analysis is the part that saves the most time. It forces you to look at the pipeline structurally — not just "who's good" but "where is time being lost." Clients also appreciate receiving a structured status update rather than a scatter of individual emails.
-            </div>
-            <div class="actions">
-              <button class="btn-copy">📋 Copy Prompt</button>
-              <button class="btn-reset">↺ Reset</button>
-              <span class="status"></span>
-            </div>
+            <button class="prompt-tip-toggle" onclick="toggleTip(this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Why this prompt works<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
+            <div class="prompt-tip-box"><strong>Why it works</strong>The bottleneck analysis is the part that saves the most time. It forces you to look at the pipeline structurally — not just "who's good" but "where is time being lost." Clients also appreciate receiving a structured status update rather than a scatter of individual emails.</div>
+            <div class="actions"><button class="btn-copy">📋 Copy Prompt</button><button class="btn-reset">↺ Reset</button><span class="status"></span></div>
           </div>
         </div>
 
-      </div><!-- /cards -->
-    </div><!-- /section hr -->
+      </div>
+    </div>
 
-    <!-- ============================================================
-         SALES
-    ============================================================ -->
+    <!-- ============================================================ SALES ============================================================ -->
     <div class="section" id="section-sales">
       <div class="section-head">
         <div class="section-icon">💼</div>
@@ -1005,18 +889,10 @@ Format as a concise weekly status memo a client could read in 2 minutes.</textar
       </div>
       <div class="cards">
 
-        <!-- Sales 1: Lead Qual -->
-        <div class="card" data-category="Sales" data-title="Lead Qualification (BANT)" data-search="lead qualification bant score csv pipeline prioritize hot">
+        <div class="card" id="card-sales-1" data-category="Sales" data-title="Lead Qualification (BANT)" data-search="lead qualification bant score csv pipeline prioritize hot">
           <div class="card-top">
-            <div class="badges">
-              <span class="badge badge--amber">Sales</span>
-              <span class="badge badge--green">High Volume</span>
-            </div>
-            <div class="model-row">
-              <span class="model-label">Best in:</span>
-              <span class="model-pill best">ChatGPT-4o</span>
-              <span class="model-pill best">Claude</span>
-            </div>
+            <div class="badges"><span class="badge badge--amber">Sales</span><span class="badge badge--green">High Volume</span></div>
+            <div class="model-row"><span class="model-label">Best in:</span><span class="model-pill best">ChatGPT-4o</span><span class="model-pill best">Claude</span></div>
             <h3 style="margin-top:12px;">1. Lead Qualification (BANT)</h3>
             <p class="desc">Score a batch of leads using BANT. Paste a CSV and get a prioritized output with recommended next actions.</p>
           </div>
@@ -1039,35 +915,16 @@ For each lead, apply BANT scoring (Budget, Authority, Need, Timeline) 0–100.
 Output CSV columns: Lead # | Company Type | BANT Score | Budget Signal | Authority Level | Need Urgency | Timeline | Recommended Next Action (call / email / nurture / disqualify)
 
 Rank highest score first. Flag any leads with BANT >70 as 🔥 HOT.</textarea>
-            <button class="prompt-tip-toggle" onclick="toggleTip(this)">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-              Why this prompt works
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
-            <div class="prompt-tip-box">
-              <strong>Why it works</strong>
-              Asking for a CSV output means you can paste the result directly into your CRM. The HOT flag cuts through the noise — most sales reps spend equal time on all leads, but 20% of leads drive 80% of revenue. BANT forces you to be explicit about which signal is missing.
-            </div>
-            <div class="actions">
-              <button class="btn-copy">📋 Copy Prompt</button>
-              <button class="btn-reset">↺ Reset</button>
-              <span class="status"></span>
-            </div>
+            <button class="prompt-tip-toggle" onclick="toggleTip(this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Why this prompt works<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
+            <div class="prompt-tip-box"><strong>Why it works</strong>Asking for a CSV output means you can paste the result directly into your CRM. The HOT flag cuts through the noise — most sales reps spend equal time on all leads, but 20% of leads drive 80% of revenue.</div>
+            <div class="actions"><button class="btn-copy">📋 Copy Prompt</button><button class="btn-reset">↺ Reset</button><span class="status"></span></div>
           </div>
         </div>
 
-        <!-- Sales 2: Email Sequence -->
-        <div class="card" data-category="Sales" data-title="3-Email Nurture Sequence" data-search="email sequence nurture drip outreach follow up sales">
+        <div class="card" id="card-sales-2" data-category="Sales" data-title="3-Email Nurture Sequence" data-search="email sequence nurture drip outreach follow up sales">
           <div class="card-top">
-            <div class="badges">
-              <span class="badge badge--amber">Sales</span>
-              <span class="badge badge--lilac">Email</span>
-            </div>
-            <div class="model-row">
-              <span class="model-label">Best in:</span>
-              <span class="model-pill best">Claude</span>
-              <span class="model-pill">ChatGPT-4o</span>
-            </div>
+            <div class="badges"><span class="badge badge--amber">Sales</span><span class="badge badge--lilac">Email</span></div>
+            <div class="model-row"><span class="model-label">Best in:</span><span class="model-pill best">Claude</span><span class="model-pill">ChatGPT-4o</span></div>
             <h3 style="margin-top:12px;">2. 3-Email Nurture Sequence</h3>
             <p class="desc">A personalized 3-touch sequence targeting a specific pain point. Designed to get replies, not just opens.</p>
           </div>
@@ -1096,35 +953,16 @@ Email 2 (Day 3): Light value-add. Share one relevant insight or stat about their
 Email 3 (Day 7): Direct ask. Short. Clear CTA for 15-min call.
 
 Subject lines for each. Avoid spam trigger words. Do not use contact's real name.</textarea>
-            <button class="prompt-tip-toggle" onclick="toggleTip(this)">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-              Why this prompt works
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
-            <div class="prompt-tip-box">
-              <strong>Why it works</strong>
-              Email 1 should never pitch — it should earn the right to pitch. The "pain before product" structure is what separates a 30% reply rate from a 3% one. Email 2's insight-first approach positions you as a knowledgeable advisor, not a vendor.
-            </div>
-            <div class="actions">
-              <button class="btn-copy">📋 Copy Prompt</button>
-              <button class="btn-reset">↺ Reset</button>
-              <span class="status"></span>
-            </div>
+            <button class="prompt-tip-toggle" onclick="toggleTip(this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Why this prompt works<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
+            <div class="prompt-tip-box"><strong>Why it works</strong>Email 1 should never pitch — it should earn the right to pitch. The "pain before product" structure is what separates a 30% reply rate from a 3% one. Email 2's insight-first approach positions you as a knowledgeable advisor, not a vendor.</div>
+            <div class="actions"><button class="btn-copy">📋 Copy Prompt</button><button class="btn-reset">↺ Reset</button><span class="status"></span></div>
           </div>
         </div>
 
-        <!-- Sales 3: LinkedIn Sales DM (NEW) -->
-        <div class="card" data-category="Sales" data-title="LinkedIn Sales DM (Cold Outreach)" data-search="linkedin sales dm cold outreach connection message hiring manager vp">
+        <div class="card" id="card-sales-3" data-category="Sales" data-title="LinkedIn Sales DM (Cold Outreach)" data-search="linkedin sales dm cold outreach connection message hiring manager vp">
           <div class="card-top">
-            <div class="badges">
-              <span class="badge badge--amber">Sales</span>
-              <span class="badge badge--green">NEW</span>
-            </div>
-            <div class="model-row">
-              <span class="model-label">Best in:</span>
-              <span class="model-pill best">Claude</span>
-              <span class="model-pill">ChatGPT-4o</span>
-            </div>
+            <div class="badges"><span class="badge badge--amber">Sales</span><span class="badge badge--green">NEW</span></div>
+            <div class="model-row"><span class="model-label">Best in:</span><span class="model-pill best">Claude</span><span class="model-pill">ChatGPT-4o</span></div>
             <h3 style="margin-top:12px;">3. LinkedIn Sales DM (Cold Outreach)</h3>
             <p class="desc">Short, specific LinkedIn DMs to hiring managers and VPs. Different tone from InMail — built for the connection request format.</p>
           </div>
@@ -1140,14 +978,9 @@ DM rules (critical):
 - No greeting, no 'Hope this message finds you well'
 - Lead with something specific to them or their company
 - One concrete hook: speed, niche, risk-free trial, or mutual connection angle
-- End with a soft binary question (yes/no), not an open-ended ask
+- End with a soft binary question (yes/no)
 
-Write 3 variants:
-A) Signal-based (reference their job posting or company news)
-B) Pain-first (lead with a hiring problem they likely face)
-C) Social proof (reference a relevant result — keep it general, no client names)
-
-Label each. Keep each under 300 characters.">Write 3 LinkedIn connection-request DMs to send to a hiring decision-maker.
+Write 3 variants: A) Signal-based B) Pain-first C) Social proof. Label each. Keep each under 300 characters.">Write 3 LinkedIn connection-request DMs to send to a hiring decision-maker.
 
 Their profile context: [TITLE + COMPANY TYPE + 1-2 SIGNALS e.g., they posted a job, company just raised funding]
 [YOUR COMPANY] value: US IT staffing, 48-hr candidate delivery, no placement no fee
@@ -1157,45 +990,21 @@ DM rules (critical):
 - No greeting, no 'Hope this message finds you well'
 - Lead with something specific to them or their company
 - One concrete hook: speed, niche, risk-free trial, or mutual connection angle
-- End with a soft binary question (yes/no), not an open-ended ask
+- End with a soft binary question (yes/no)
 
-Write 3 variants:
-A) Signal-based (reference their job posting or company news)
-B) Pain-first (lead with a hiring problem they likely face)
-C) Social proof (reference a relevant result — keep it general, no client names)
-
-Label each. Keep each under 300 characters.</textarea>
-            <button class="prompt-tip-toggle" onclick="toggleTip(this)">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-              Why this prompt works
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
-            <div class="prompt-tip-box">
-              <strong>Why it works</strong>
-              LinkedIn DMs get read on phones in 3 seconds. The binary question ("worth a quick chat?" vs "would you be open to...") has dramatically higher response rates because it requires almost no mental effort to answer. The 300-character hard limit forces AI to write like a human, not a brochure.
-            </div>
-            <div class="actions">
-              <button class="btn-copy">📋 Copy Prompt</button>
-              <button class="btn-reset">↺ Reset</button>
-              <span class="status"></span>
-            </div>
+Write 3 variants: A) Signal-based B) Pain-first C) Social proof. Label each. Keep each under 300 characters.</textarea>
+            <button class="prompt-tip-toggle" onclick="toggleTip(this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Why this prompt works<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
+            <div class="prompt-tip-box"><strong>Why it works</strong>LinkedIn DMs get read on phones in 3 seconds. The binary question has dramatically higher response rates because it requires almost no mental effort to answer. The 300-character hard limit forces AI to write like a human, not a brochure.</div>
+            <div class="actions"><button class="btn-copy">📋 Copy Prompt</button><button class="btn-reset">↺ Reset</button><span class="status"></span></div>
           </div>
         </div>
 
-        <!-- Sales 4: Re-engagement (NEW) -->
-        <div class="card" data-category="Sales" data-title="Re-engagement for Cold Accounts" data-search="re-engage cold account lapsed client win back dormant prospect">
+        <div class="card" id="card-sales-4" data-category="Sales" data-title="Re-engagement for Cold Accounts" data-search="re-engage cold account lapsed client win back dormant prospect">
           <div class="card-top">
-            <div class="badges">
-              <span class="badge badge--amber">Sales</span>
-              <span class="badge badge--green">NEW</span>
-            </div>
-            <div class="model-row">
-              <span class="model-label">Best in:</span>
-              <span class="model-pill best">Claude</span>
-              <span class="model-pill">ChatGPT-4o</span>
-            </div>
+            <div class="badges"><span class="badge badge--amber">Sales</span><span class="badge badge--green">NEW</span></div>
+            <div class="model-row"><span class="model-label">Best in:</span><span class="model-pill best">Claude</span><span class="model-pill">ChatGPT-4o</span></div>
             <h3 style="margin-top:12px;">4. Re-engagement for Cold Accounts</h3>
-            <p class="desc">Accounts that went quiet 3–6 months ago need a completely different approach. This prompt crafts a "we've changed" re-entry that doesn't feel like recycled outreach.</p>
+            <p class="desc">Accounts that went quiet 3–6 months ago need a completely different approach. Craft a "we've changed" re-entry that doesn't feel like recycled outreach.</p>
           </div>
           <div class="prompt-wrap">
             <div class="prompt-meta"><span>Prompt</span><span>Editable</span></div>
@@ -1204,59 +1013,40 @@ Label each. Keep each under 300 characters.</textarea>
 Context:
 - Company type: [e.g., mid-size cloud software company]
 - Contact title: [e.g., Director of Engineering]
-- Last interaction: [e.g., had a call 4 months ago, they said 'not right now' — no bad blood]
-- What's changed since then: [e.g., [YOUR COMPANY] now has 3 placed engineers in their tech stack, faster turnaround, new niche team]
+- Last interaction: [e.g., had a call 4 months ago, they said 'not right now']
+- What's changed since then: [e.g., faster turnaround, new niche team]
 - Any external trigger: [e.g., their company announced a new product launch, posted 5 new roles]
 
 Write:
-1. A re-engagement email (under 150 words) that references what's changed — on OUR end and/or THEIR end. Not a follow-up. A fresh conversation.
+1. A re-engagement email (under 150 words) referencing what's changed. Not a follow-up. A fresh conversation.
 2. A LinkedIn DM version (under 200 characters)
-3. One sentence to use as a cold call opener if they answer
+3. One sentence cold call opener
 
 Do not mention 'just checking in' or 'following up'. Ever.">Write a re-engagement outreach for a prospect who went cold.
 
 Context:
 - Company type: [e.g., mid-size cloud software company]
 - Contact title: [e.g., Director of Engineering]
-- Last interaction: [e.g., had a call 4 months ago, they said 'not right now' — no bad blood]
-- What's changed since then: [e.g., [YOUR COMPANY] now has 3 placed engineers in their tech stack, faster turnaround, new niche team]
+- Last interaction: [e.g., had a call 4 months ago, they said 'not right now']
+- What's changed since then: [e.g., faster turnaround, new niche team]
 - Any external trigger: [e.g., their company announced a new product launch, posted 5 new roles]
 
 Write:
-1. A re-engagement email (under 150 words) that references what's changed — on OUR end and/or THEIR end. Not a follow-up. A fresh conversation.
+1. A re-engagement email (under 150 words) referencing what's changed. Not a follow-up. A fresh conversation.
 2. A LinkedIn DM version (under 200 characters)
-3. One sentence to use as a cold call opener if they answer
+3. One sentence cold call opener
 
 Do not mention 'just checking in' or 'following up'. Ever.</textarea>
-            <button class="prompt-tip-toggle" onclick="toggleTip(this)">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-              Why this prompt works
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
-            <div class="prompt-tip-box">
-              <strong>Why it works</strong>
-              "Just checking in" is the most deleted phrase in B2B sales. Re-engagement works when you can answer: "what's different now?" — on your side, their side, or both. An external trigger (funding round, new job postings, product launch) is gold because it's about them, not you.
-            </div>
-            <div class="actions">
-              <button class="btn-copy">📋 Copy Prompt</button>
-              <button class="btn-reset">↺ Reset</button>
-              <span class="status"></span>
-            </div>
+            <button class="prompt-tip-toggle" onclick="toggleTip(this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Why this prompt works<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
+            <div class="prompt-tip-box"><strong>Why it works</strong>"Just checking in" is the most deleted phrase in B2B sales. Re-engagement works when you can answer: "what's different now?" An external trigger (funding round, new job postings) is gold because it's about them, not you.</div>
+            <div class="actions"><button class="btn-copy">📋 Copy Prompt</button><button class="btn-reset">↺ Reset</button><span class="status"></span></div>
           </div>
         </div>
 
-        <!-- Sales 5: Objection Rebuttals -->
-        <div class="card" data-category="Sales" data-title="Objection Rebuttal Scripts" data-search="objection handling rebuttal script sales pushback vendor list rates">
+        <div class="card" id="card-sales-5" data-category="Sales" data-title="Objection Rebuttal Scripts" data-search="objection handling rebuttal script sales pushback vendor list rates">
           <div class="card-top">
-            <div class="badges">
-              <span class="badge badge--amber">Sales</span>
-              <span class="badge badge--green">Call Ready</span>
-            </div>
-            <div class="model-row">
-              <span class="model-label">Best in:</span>
-              <span class="model-pill best">Claude</span>
-              <span class="model-pill">ChatGPT-4o</span>
-            </div>
+            <div class="badges"><span class="badge badge--amber">Sales</span><span class="badge badge--green">Call Ready</span></div>
+            <div class="model-row"><span class="model-label">Best in:</span><span class="model-pill best">Claude</span><span class="model-pill">ChatGPT-4o</span></div>
             <h3 style="margin-top:12px;">5. Objection Rebuttal Scripts</h3>
             <p class="desc">Confident, non-pushy rebuttals for common US IT staffing sales objections. Ready for calls or email.</p>
           </div>
@@ -1289,37 +1079,18 @@ For each:
 - Offer or CTA (1 sentence)
 
 Tone: confident, consultative, zero desperation. Max 5 sentences per rebuttal.</textarea>
-            <button class="prompt-tip-toggle" onclick="toggleTip(this)">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-              Why this prompt works
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
-            <div class="prompt-tip-box">
-              <strong>Why it works</strong>
-              The acknowledge-pivot-offer structure prevents defensive responses that kill deals. "We're not hiring right now" is almost never true — it means "I don't see why talking to you is worth my time." The pivot reframes their objection as the exact reason to talk now.
-            </div>
-            <div class="actions">
-              <button class="btn-copy">📋 Copy Prompt</button>
-              <button class="btn-reset">↺ Reset</button>
-              <span class="status"></span>
-            </div>
+            <button class="prompt-tip-toggle" onclick="toggleTip(this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Why this prompt works<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
+            <div class="prompt-tip-box"><strong>Why it works</strong>The acknowledge-pivot-offer structure prevents defensive responses that kill deals. "We're not hiring right now" almost never means that — it means "I don't see why talking to you is worth my time." The pivot reframes their objection as the exact reason to talk now.</div>
+            <div class="actions"><button class="btn-copy">📋 Copy Prompt</button><button class="btn-reset">↺ Reset</button><span class="status"></span></div>
           </div>
         </div>
 
-        <!-- Sales 6: Bill Rate Explainer (NEW) -->
-        <div class="card" data-category="Sales" data-title="Bill Rate & Margin Explainer" data-search="bill rate markup margin explainer calculator staffing model pricing">
+        <div class="card" id="card-sales-6" data-category="Sales" data-title="Bill Rate & Margin Explainer" data-search="bill rate markup margin explainer calculator staffing model pricing">
           <div class="card-top">
-            <div class="badges">
-              <span class="badge badge--amber">Sales</span>
-              <span class="badge badge--green">NEW</span>
-            </div>
-            <div class="model-row">
-              <span class="model-label">Best in:</span>
-              <span class="model-pill best">ChatGPT-4o</span>
-              <span class="model-pill best">Claude</span>
-            </div>
+            <div class="badges"><span class="badge badge--amber">Sales</span><span class="badge badge--green">NEW</span></div>
+            <div class="model-row"><span class="model-label">Best in:</span><span class="model-pill best">ChatGPT-4o</span><span class="model-pill best">Claude</span></div>
             <h3 style="margin-top:12px;">6. Bill Rate & Margin Explainer</h3>
-            <p class="desc">When a client pushes back on markup, use this to generate a clear, non-defensive explanation of how staffing billing works — and why it's fair.</p>
+            <p class="desc">When a client pushes back on markup, generate a clear, non-defensive explanation of how staffing billing works — and why it's fair.</p>
           </div>
           <div class="prompt-wrap">
             <div class="prompt-meta"><span>Prompt</span><span>Editable</span></div>
@@ -1332,8 +1103,8 @@ Context:
 - Their objection: [e.g., 'That markup seems high' / 'Why can't we just hire them directly?']
 
 Generate:
-1. A plain-English breakdown of what the markup covers: employer taxes (FICA, FUTA, SUTA), benefits, workers comp, insurance, recruiter time, compliance, payroll risk
-2. A comparison: what it would cost them to hire this person directly (salary + benefits + recruiting time + HR overhead)
+1. Plain-English breakdown of what the markup covers: employer taxes, benefits, workers comp, insurance, recruiter time, compliance, payroll risk
+2. Comparison: what it would cost them to hire directly
 3. A 2-sentence response to their specific objection — confident, not defensive
 4. A closing line that reframes the cost as risk transfer, not markup
 
@@ -1346,40 +1117,22 @@ Context:
 - Their objection: [e.g., 'That markup seems high' / 'Why can't we just hire them directly?']
 
 Generate:
-1. A plain-English breakdown of what the markup covers: employer taxes (FICA, FUTA, SUTA), benefits, workers comp, insurance, recruiter time, compliance, payroll risk
-2. A comparison: what it would cost them to hire this person directly (salary + benefits + recruiting time + HR overhead)
+1. Plain-English breakdown of what the markup covers: employer taxes, benefits, workers comp, insurance, recruiter time, compliance, payroll risk
+2. Comparison: what it would cost them to hire directly
 3. A 2-sentence response to their specific objection — confident, not defensive
 4. A closing line that reframes the cost as risk transfer, not markup
 
 No real dollar figures — use ranges and percentages only.</textarea>
-            <button class="prompt-tip-toggle" onclick="toggleTip(this)">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-              Why this prompt works
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
-            <div class="prompt-tip-box">
-              <strong>Why it works</strong>
-              Most clients think the markup is pure profit. When you transparently walk through employer taxes, compliance costs, and payroll risk, the conversation shifts from "you're expensive" to "oh, you absorb all that." The "risk transfer" framing is particularly powerful with finance-oriented contacts.
-            </div>
-            <div class="actions">
-              <button class="btn-copy">📋 Copy Prompt</button>
-              <button class="btn-reset">↺ Reset</button>
-              <span class="status"></span>
-            </div>
+            <button class="prompt-tip-toggle" onclick="toggleTip(this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Why this prompt works<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
+            <div class="prompt-tip-box"><strong>Why it works</strong>Most clients think the markup is pure profit. When you transparently walk through employer taxes, compliance costs, and payroll risk, the conversation shifts from "you're expensive" to "oh, you absorb all that." The "risk transfer" framing is particularly powerful with finance-oriented contacts.</div>
+            <div class="actions"><button class="btn-copy">📋 Copy Prompt</button><button class="btn-reset">↺ Reset</button><span class="status"></span></div>
           </div>
         </div>
 
-        <!-- Sales 7: Discovery Call Prep -->
-        <div class="card" data-category="Sales" data-title="Discovery Call Prep" data-search="discovery call prep questions research prospect call script">
+        <div class="card" id="card-sales-7" data-category="Sales" data-title="Discovery Call Prep" data-search="discovery call prep questions research prospect call script">
           <div class="card-top">
-            <div class="badges">
-              <span class="badge badge--amber">Sales</span>
-            </div>
-            <div class="model-row">
-              <span class="model-label">Best in:</span>
-              <span class="model-pill best">Claude</span>
-              <span class="model-pill best">ChatGPT-4o</span>
-            </div>
+            <div class="badges"><span class="badge badge--amber">Sales</span></div>
+            <div class="model-row"><span class="model-label">Best in:</span><span class="model-pill best">Claude</span><span class="model-pill best">ChatGPT-4o</span></div>
             <h3 style="margin-top:12px;">7. Discovery Call Prep</h3>
             <p class="desc">Research a prospect and get a structured call plan: smart questions, likely pain points, talking points, and red flags.</p>
           </div>
@@ -1389,13 +1142,13 @@ No real dollar figures — use ranges and percentages only.</textarea>
 
 Company type: [e.g., 200-person fintech startup, recently Series B]
 Contact title: [e.g., VP Engineering]
-What I know: [paste any context: LinkedIn bio highlights, company job postings, recent news, tech stack visible on their website]
+What I know: [paste any context: LinkedIn bio highlights, company job postings, recent news, tech stack]
 [YOUR COMPANY] services: US IT staffing, contract / perm / contract-to-hire
 
 Deliver:
 1. Company snapshot: industry, likely hiring challenges, tech context
-2. 5 smart discovery questions to uncover their actual pain (not surface-level)
-3. 3 [YOUR COMPANY] value props most relevant to this specific company type
+2. 5 smart discovery questions to uncover their actual pain
+3. 3 [YOUR COMPANY] value props most relevant to this company type
 4. Potential red flags or deal risks to probe for early
 5. Suggested 3-minute call structure: opener → discovery → value → CTA
 
@@ -1403,46 +1156,27 @@ Keep it scannable — I need to review this in 5 minutes before the call.">Prepa
 
 Company type: [e.g., 200-person fintech startup, recently Series B]
 Contact title: [e.g., VP Engineering]
-What I know: [paste any context: LinkedIn bio highlights, company job postings, recent news, tech stack visible on their website]
+What I know: [paste any context: LinkedIn bio highlights, company job postings, recent news, tech stack]
 [YOUR COMPANY] services: US IT staffing, contract / perm / contract-to-hire
 
 Deliver:
 1. Company snapshot: industry, likely hiring challenges, tech context
-2. 5 smart discovery questions to uncover their actual pain (not surface-level)
-3. 3 [YOUR COMPANY] value props most relevant to this specific company type
+2. 5 smart discovery questions to uncover their actual pain
+3. 3 [YOUR COMPANY] value props most relevant to this company type
 4. Potential red flags or deal risks to probe for early
 5. Suggested 3-minute call structure: opener → discovery → value → CTA
 
 Keep it scannable — I need to review this in 5 minutes before the call.</textarea>
-            <button class="prompt-tip-toggle" onclick="toggleTip(this)">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-              Why this prompt works
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
-            <div class="prompt-tip-box">
-              <strong>Why it works</strong>
-              The "5 minutes before the call" framing forces the AI to be scannable — not a 10-page essay. The red flags section is the most underused part: identifying deal risks early (e.g., they only hire direct, their CEO micromanages hiring) saves you from chasing unwinnable deals for weeks.
-            </div>
-            <div class="actions">
-              <button class="btn-copy">📋 Copy Prompt</button>
-              <button class="btn-reset">↺ Reset</button>
-              <span class="status"></span>
-            </div>
+            <button class="prompt-tip-toggle" onclick="toggleTip(this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Why this prompt works<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
+            <div class="prompt-tip-box"><strong>Why it works</strong>The "5 minutes before the call" framing forces the AI to be scannable — not a 10-page essay. The red flags section is the most underused part: identifying deal risks early saves you from chasing unwinnable deals for weeks.</div>
+            <div class="actions"><button class="btn-copy">📋 Copy Prompt</button><button class="btn-reset">↺ Reset</button><span class="status"></span></div>
           </div>
         </div>
 
-        <!-- Sales 8: Pipeline Forecast -->
-        <div class="card" data-category="Sales" data-title="Pipeline Forecast" data-search="pipeline forecast revenue projection sales stage deal weighted">
+        <div class="card" id="card-sales-8" data-category="Sales" data-title="Pipeline Forecast" data-search="pipeline forecast revenue projection sales stage deal weighted">
           <div class="card-top">
-            <div class="badges">
-              <span class="badge badge--amber">Sales</span>
-              <span class="badge badge--green">Reporting</span>
-            </div>
-            <div class="model-row">
-              <span class="model-label">Best in:</span>
-              <span class="model-pill best">ChatGPT-4o</span>
-              <span class="model-pill">Claude</span>
-            </div>
+            <div class="badges"><span class="badge badge--amber">Sales</span><span class="badge badge--green">Reporting</span></div>
+            <div class="model-row"><span class="model-label">Best in:</span><span class="model-pill best">ChatGPT-4o</span><span class="model-pill">Claude</span></div>
             <h3 style="margin-top:12px;">8. Pipeline Forecast</h3>
             <p class="desc">Paste your deal pipeline and get a weighted revenue forecast, deal health scores, and this week's focus list.</p>
           </div>
@@ -1475,35 +1209,16 @@ Deliver:
 5. Total forecasted monthly revenue
 
 Use anonymized company labels (Company A, B, C). Do not use real company or contact names.</textarea>
-            <button class="prompt-tip-toggle" onclick="toggleTip(this)">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-              Why this prompt works
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
-            <div class="prompt-tip-box">
-              <strong>Why it works</strong>
-              The weighted percentage model is standard in enterprise sales but underused in staffing. It forces realism — a Proposal Sent isn't worth full value. The stalled deal flag is often the most actionable output: a deal that's been sitting for 3 weeks without contact is almost certainly dead and needs a Hail Mary move, not another gentle nudge.
-            </div>
-            <div class="actions">
-              <button class="btn-copy">📋 Copy Prompt</button>
-              <button class="btn-reset">↺ Reset</button>
-              <span class="status"></span>
-            </div>
+            <button class="prompt-tip-toggle" onclick="toggleTip(this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Why this prompt works<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
+            <div class="prompt-tip-box"><strong>Why it works</strong>The weighted percentage model forces realism — a Proposal Sent isn't worth full value. The stalled deal flag is often the most actionable output: a deal sitting for 3 weeks without contact needs a Hail Mary move, not another gentle nudge.</div>
+            <div class="actions"><button class="btn-copy">📋 Copy Prompt</button><button class="btn-reset">↺ Reset</button><span class="status"></span></div>
           </div>
         </div>
 
-        <!-- Sales 9: Closing Questions -->
-        <div class="card" data-category="Sales" data-title="Closing Questions & Post-Call Follow-up" data-search="closing questions trial close commitment next steps post call email">
+        <div class="card" id="card-sales-9" data-category="Sales" data-title="Closing Questions & Post-Call Follow-up" data-search="closing questions trial close commitment next steps post call email">
           <div class="card-top">
-            <div class="badges">
-              <span class="badge badge--amber">Sales</span>
-              <span class="badge badge--green">Close</span>
-            </div>
-            <div class="model-row">
-              <span class="model-label">Best in:</span>
-              <span class="model-pill best">Claude</span>
-              <span class="model-pill">ChatGPT-4o</span>
-            </div>
+            <div class="badges"><span class="badge badge--amber">Sales</span><span class="badge badge--green">Close</span></div>
+            <div class="model-row"><span class="model-label">Best in:</span><span class="model-pill best">Claude</span><span class="model-pill">ChatGPT-4o</span></div>
             <h3 style="margin-top:12px;">9. Closing Questions & Post-Call Follow-up</h3>
             <p class="desc">Generate soft trial-close questions and a follow-up email to send within one hour of a promising call.</p>
           </div>
@@ -1536,29 +1251,16 @@ Generate:
 3. If they go quiet after this email: a 5-day nudge message (under 60 words, no 'just checking in')
 
 Tone: confident, helpful, zero desperation.</textarea>
-            <button class="prompt-tip-toggle" onclick="toggleTip(this)">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-              Why this prompt works
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
-            <div class="prompt-tip-box">
-              <strong>Why it works</strong>
-              The 1-hour follow-up email is the highest-leverage sales action that most people skip. Research consistently shows reply rates drop 40%+ after 24 hours. The retrospective trial-close questions also help you spot the moment where deals typically stall in your pipeline.
-            </div>
-            <div class="actions">
-              <button class="btn-copy">📋 Copy Prompt</button>
-              <button class="btn-reset">↺ Reset</button>
-              <span class="status"></span>
-            </div>
+            <button class="prompt-tip-toggle" onclick="toggleTip(this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Why this prompt works<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
+            <div class="prompt-tip-box"><strong>Why it works</strong>The 1-hour follow-up email is the highest-leverage sales action that most people skip. Research consistently shows reply rates drop 40%+ after 24 hours. The retrospective trial-close questions also help you spot the moment where deals typically stall in your pipeline.</div>
+            <div class="actions"><button class="btn-copy">📋 Copy Prompt</button><button class="btn-reset">↺ Reset</button><span class="status"></span></div>
           </div>
         </div>
 
-      </div><!-- /cards -->
-    </div><!-- /section sales -->
+      </div>
+    </div>
 
-    <!-- ============================================================
-         ACCOUNTS
-    ============================================================ -->
+    <!-- ============================================================ ACCOUNTS ============================================================ -->
     <div class="section" id="section-accounts">
       <div class="section-head">
         <div class="section-icon">💰</div>
@@ -1569,25 +1271,11 @@ Tone: confident, helpful, zero desperation.</textarea>
       </div>
       <div class="cards">
 
-        <!-- Accounts 1: 3-Way Match -->
-        <div class="card" data-category="Accounts" data-title="3-Way Invoice Match" data-search="invoice match po purchase order 3 way match variance gl code">
+        <div class="card" id="card-acc-1" data-category="Accounts" data-title="3-Way Invoice Match" data-search="invoice match po purchase order 3 way match variance gl code">
           <div class="card-top">
-            <div class="security-banner">
-              <div class="security-banner-icon">🔒</div>
-              <div class="security-banner-text">
-                <strong>Security Required Before Use</strong>
-                Replace all real vendor names with codes (VENDOR_A), real amounts with rounded estimates, and remove invoice numbers before pasting.
-              </div>
-            </div>
-            <div class="badges">
-              <span class="badge badge--lilac">Accounts</span>
-              <span class="badge badge--green">AP Core</span>
-            </div>
-            <div class="model-row">
-              <span class="model-label">Best in:</span>
-              <span class="model-pill best">ChatGPT-4o</span>
-              <span class="model-pill best">Claude</span>
-            </div>
+            <div class="security-banner"><div class="security-banner-icon">🔒</div><div class="security-banner-text"><strong>Security Required Before Use</strong>Replace all real vendor names with codes (VENDOR_A), real amounts with rounded estimates, and remove invoice numbers before pasting.</div></div>
+            <div class="badges"><span class="badge badge--lilac">Accounts</span><span class="badge badge--green">AP Core</span></div>
+            <div class="model-row"><span class="model-label">Best in:</span><span class="model-pill best">ChatGPT-4o</span><span class="model-pill best">Claude</span></div>
             <h3 style="margin-top:12px;">1. 3-Way Invoice Match</h3>
             <p class="desc">Validate an anonymized invoice against a PO and receipt. Get match status, variance analysis, and GL code suggestion.</p>
           </div>
@@ -1595,21 +1283,9 @@ Tone: confident, helpful, zero desperation.</textarea>
             <div class="prompt-meta"><span>Prompt</span><span>Editable</span></div>
             <textarea data-original="You are a US Accounts Payable expert. All data below is anonymized.
 
-INVOICE:
-Vendor: [VENDOR_A]
-Invoice ref: [INV-REF]
-Date: [DATE]
-Line items: [ITEM_1: $X, ITEM_2: $Y]
-Total: [$TOTAL]
-
-PURCHASE ORDER:
-PO ref: [PO-REF]
-Approved amount: [$APPROVED]
-Line items: [describe match or differences]
-
-GOODS/SERVICES RECEIPT:
-Confirmed: [Yes / Partial / No]
-Amount received: [$RECEIVED]
+INVOICE: Vendor: [VENDOR_A] | Invoice ref: [INV-REF] | Date: [DATE] | Line items: [ITEM_1: $X, ITEM_2: $Y] | Total: [$TOTAL]
+PURCHASE ORDER: PO ref: [PO-REF] | Approved amount: [$APPROVED] | Line items: [describe match or differences]
+GOODS/SERVICES RECEIPT: Confirmed: [Yes / Partial / No] | Amount received: [$RECEIVED]
 
 Output:
 1. Match Status: Matched / Tolerance Match / Mismatch / Exception
@@ -1620,21 +1296,9 @@ Output:
 
 Keep all output anonymized.">You are a US Accounts Payable expert. All data below is anonymized.
 
-INVOICE:
-Vendor: [VENDOR_A]
-Invoice ref: [INV-REF]
-Date: [DATE]
-Line items: [ITEM_1: $X, ITEM_2: $Y]
-Total: [$TOTAL]
-
-PURCHASE ORDER:
-PO ref: [PO-REF]
-Approved amount: [$APPROVED]
-Line items: [describe match or differences]
-
-GOODS/SERVICES RECEIPT:
-Confirmed: [Yes / Partial / No]
-Amount received: [$RECEIVED]
+INVOICE: Vendor: [VENDOR_A] | Invoice ref: [INV-REF] | Date: [DATE] | Line items: [ITEM_1: $X, ITEM_2: $Y] | Total: [$TOTAL]
+PURCHASE ORDER: PO ref: [PO-REF] | Approved amount: [$APPROVED] | Line items: [describe match or differences]
+GOODS/SERVICES RECEIPT: Confirmed: [Yes / Partial / No] | Amount received: [$RECEIVED]
 
 Output:
 1. Match Status: Matched / Tolerance Match / Mismatch / Exception
@@ -1644,135 +1308,70 @@ Output:
 5. Action: Auto-approve / Route for approval / Hold / Reject
 
 Keep all output anonymized.</textarea>
-            <button class="prompt-tip-toggle" onclick="toggleTip(this)">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-              Why this prompt works
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
-            <div class="prompt-tip-box">
-              <strong>Why it works</strong>
-              Telling the AI to "keep all output anonymized" is an extra safeguard — even if you accidentally include something real, the AI won't repeat it back in a way that could end up in a screenshot or email. The structured 5-point output maps directly to what your approval system needs.
-            </div>
-            <div class="actions">
-              <button class="btn-copy">📋 Copy Prompt</button>
-              <button class="btn-reset">↺ Reset</button>
-              <span class="status"></span>
-            </div>
+            <button class="prompt-tip-toggle" onclick="toggleTip(this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Why this prompt works<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
+            <div class="prompt-tip-box"><strong>Why it works</strong>Telling the AI to "keep all output anonymized" is an extra safeguard. The structured 5-point output maps directly to what your approval system needs.</div>
+            <div class="actions"><button class="btn-copy">📋 Copy Prompt</button><button class="btn-reset">↺ Reset</button><span class="status"></span></div>
           </div>
         </div>
 
-        <!-- Accounts 2: Timesheet Discrepancy (NEW) -->
-        <div class="card" data-category="Accounts" data-title="Contractor Timesheet Discrepancy Resolver" data-search="contractor timesheet discrepancy mismatch hours invoice billing staffing">
+        <div class="card" id="card-acc-2" data-category="Accounts" data-title="Contractor Timesheet Discrepancy Resolver" data-search="contractor timesheet discrepancy mismatch hours invoice billing staffing">
           <div class="card-top">
-            <div class="security-banner">
-              <div class="security-banner-icon">🔒</div>
-              <div class="security-banner-text">
-                <strong>Security Required Before Use</strong>
-                Use contractor codes (CONTRACTOR_1), not real names. Round hours to nearest whole number. No personal contact details.
-              </div>
-            </div>
-            <div class="badges">
-              <span class="badge badge--lilac">Accounts</span>
-              <span class="badge badge--green">NEW</span>
-            </div>
-            <div class="model-row">
-              <span class="model-label">Best in:</span>
-              <span class="model-pill best">ChatGPT-4o</span>
-              <span class="model-pill">Claude</span>
-            </div>
+            <div class="security-banner"><div class="security-banner-icon">🔒</div><div class="security-banner-text"><strong>Security Required Before Use</strong>Use contractor codes (CONTRACTOR_1), not real names. Round hours to nearest whole number. No personal contact details.</div></div>
+            <div class="badges"><span class="badge badge--lilac">Accounts</span><span class="badge badge--green">NEW</span></div>
+            <div class="model-row"><span class="model-label">Best in:</span><span class="model-pill best">ChatGPT-4o</span><span class="model-pill">Claude</span></div>
             <h3 style="margin-top:12px;">2. Contractor Timesheet Discrepancy Resolver</h3>
-            <p class="desc">When contractor hours vs. invoiced hours don't match, this prompt identifies the gap, likely cause, and resolution path — critical for IT staffing AP.</p>
+            <p class="desc">When contractor hours vs. invoiced hours don't match, identify the gap, likely cause, and resolution path.</p>
           </div>
           <div class="prompt-wrap">
             <div class="prompt-meta"><span>Prompt</span><span>Editable</span></div>
             <textarea data-original="You are a US staffing accounts expert. Resolve this timesheet vs. invoice discrepancy.
 
-TIMESHEET DATA (approved by client manager):
-Contractor: [CONTRACTOR_1]
-Week ending: [DATE]
-Approved hours: [X hrs regular / Y hrs OT]
-Approved rate: [$Z/hr regular / $W/hr OT — use ranges if sensitive]
+TIMESHEET (approved by client manager):
+Contractor: [CONTRACTOR_1] | Week ending: [DATE] | Approved hours: [X hrs regular / Y hrs OT] | Rate: [$Z/hr regular / $W/hr OT]
 
-INVOICE SUBMITTED BY STAFFING VENDOR:
-Hours billed: [A hrs regular / B hrs OT]
-Rate billed: [$C/hr regular / $D/hr OT]
-Total invoiced: [$AMOUNT]
-
-Expected invoice total based on timesheet: [$CALCULATED]
-Variance: [$DIFFERENCE]
+INVOICE SUBMITTED:
+Hours billed: [A hrs regular / B hrs OT] | Rate billed: [$C/hr / $D/hr OT] | Total invoiced: [$AMOUNT]
+Expected total based on timesheet: [$CALCULATED] | Variance: [$DIFFERENCE]
 
 Analyze:
 1. Type of discrepancy: hours gap / rate gap / OT classification / both
-2. Most likely cause (rounding, rate change, OT threshold, missing approvals)
-3. What to request from vendor to resolve: revised invoice / backup documentation / rate agreement
+2. Most likely cause
+3. What to request from vendor to resolve
 4. Suggested journal entry adjustment if partial payment needed
-5. Risk flag: Is this a one-off or a pattern to monitor?">You are a US staffing accounts expert. Resolve this timesheet vs. invoice discrepancy.
+5. Risk flag: one-off or pattern to monitor?">You are a US staffing accounts expert. Resolve this timesheet vs. invoice discrepancy.
 
-TIMESHEET DATA (approved by client manager):
-Contractor: [CONTRACTOR_1]
-Week ending: [DATE]
-Approved hours: [X hrs regular / Y hrs OT]
-Approved rate: [$Z/hr regular / $W/hr OT — use ranges if sensitive]
+TIMESHEET (approved by client manager):
+Contractor: [CONTRACTOR_1] | Week ending: [DATE] | Approved hours: [X hrs regular / Y hrs OT] | Rate: [$Z/hr regular / $W/hr OT]
 
-INVOICE SUBMITTED BY STAFFING VENDOR:
-Hours billed: [A hrs regular / B hrs OT]
-Rate billed: [$C/hr regular / $D/hr OT]
-Total invoiced: [$AMOUNT]
-
-Expected invoice total based on timesheet: [$CALCULATED]
-Variance: [$DIFFERENCE]
+INVOICE SUBMITTED:
+Hours billed: [A hrs regular / B hrs OT] | Rate billed: [$C/hr / $D/hr OT] | Total invoiced: [$AMOUNT]
+Expected total based on timesheet: [$CALCULATED] | Variance: [$DIFFERENCE]
 
 Analyze:
 1. Type of discrepancy: hours gap / rate gap / OT classification / both
-2. Most likely cause (rounding, rate change, OT threshold, missing approvals)
-3. What to request from vendor to resolve: revised invoice / backup documentation / rate agreement
+2. Most likely cause
+3. What to request from vendor to resolve
 4. Suggested journal entry adjustment if partial payment needed
-5. Risk flag: Is this a one-off or a pattern to monitor?</textarea>
-            <button class="prompt-tip-toggle" onclick="toggleTip(this)">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-              Why this prompt works
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
-            <div class="prompt-tip-box">
-              <strong>Why it works</strong>
-              Timesheet vs. invoice mismatches in IT staffing are extremely common — OT thresholds, holiday rules, and rate amendments create gaps weekly. This prompt structures the analysis and tells you exactly what document to request, saving a 3-email back-and-forth with the vendor.
-            </div>
-            <div class="actions">
-              <button class="btn-copy">📋 Copy Prompt</button>
-              <button class="btn-reset">↺ Reset</button>
-              <span class="status"></span>
-            </div>
+5. Risk flag: one-off or pattern to monitor?</textarea>
+            <button class="prompt-tip-toggle" onclick="toggleTip(this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Why this prompt works<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
+            <div class="prompt-tip-box"><strong>Why it works</strong>Timesheet vs. invoice mismatches in IT staffing are extremely common. This prompt structures the analysis and tells you exactly what document to request, saving a 3-email back-and-forth with the vendor.</div>
+            <div class="actions"><button class="btn-copy">📋 Copy Prompt</button><button class="btn-reset">↺ Reset</button><span class="status"></span></div>
           </div>
         </div>
 
-        <!-- Accounts 3: 1099 vs W2 (NEW) -->
-        <div class="card" data-category="Accounts" data-title="1099 vs W-2 Classification Check" data-search="1099 w2 classification misclassification worker contractor employee IRS test">
+        <div class="card" id="card-acc-3" data-category="Accounts" data-title="1099 vs W-2 Classification Check" data-search="1099 w2 classification misclassification worker contractor employee IRS test">
           <div class="card-top">
-            <div class="security-banner">
-              <div class="security-banner-icon">🔒</div>
-              <div class="security-banner-text">
-                <strong>Security Required Before Use</strong>
-                Describe the work arrangement in general terms only. No real names, SSNs, or exact compensation figures. For official classification, always consult your employment attorney.
-              </div>
-            </div>
-            <div class="badges">
-              <span class="badge badge--lilac">Accounts</span>
-              <span class="badge badge--green">NEW</span>
-              <span class="badge badge--red">Legal Risk</span>
-            </div>
-            <div class="model-row">
-              <span class="model-label">Best in:</span>
-              <span class="model-pill best">Claude</span>
-              <span class="model-pill">ChatGPT-4o</span>
-            </div>
+            <div class="security-banner"><div class="security-banner-icon">🔒</div><div class="security-banner-text"><strong>Security Required Before Use</strong>Describe the work arrangement in general terms only. No real names, SSNs, or exact compensation figures. For official classification, always consult your employment attorney.</div></div>
+            <div class="badges"><span class="badge badge--lilac">Accounts</span><span class="badge badge--green">NEW</span><span class="badge badge--red">Legal Risk</span></div>
+            <div class="model-row"><span class="model-label">Best in:</span><span class="model-pill best">Claude</span><span class="model-pill">ChatGPT-4o</span></div>
             <h3 style="margin-top:12px;">3. 1099 vs W-2 Classification Check</h3>
-            <p class="desc">A quick pre-screening of a work arrangement against IRS and DOL classification tests. Not legal advice — a first-pass risk flag before escalating to counsel.</p>
+            <p class="desc">A quick pre-screening of a work arrangement against IRS and DOL classification tests. A first-pass risk flag before escalating to counsel.</p>
           </div>
           <div class="prompt-wrap">
             <div class="prompt-meta"><span>Prompt</span><span>Editable</span></div>
-            <textarea data-original="You are a US employment compliance assistant. Help me pre-screen this work arrangement for potential misclassification risk. This is NOT a legal opinion — it is a risk flag for internal review before consulting our employment attorney.
+            <textarea data-original="You are a US employment compliance assistant. Pre-screen this work arrangement for misclassification risk. This is NOT a legal opinion — a risk flag for internal review before consulting our employment attorney.
 
-Work arrangement details (general — no names or exact figures):
+Work arrangement (general — no names or exact figures):
 - Type of work: [e.g., software development / data analysis / IT support]
 - Duration: [e.g., ongoing / project-based / defined end date]
 - Work location / hours: [e.g., set hours required / works own schedule / on-site required]
@@ -1783,18 +1382,15 @@ Work arrangement details (general — no names or exact figures):
 - Payment method: [hourly / fixed per project / monthly retainer]
 
 Evaluate against:
-1. IRS Common Law Test (behavioral / financial / type of relationship)
+1. IRS Common Law Test
 2. DOL Economic Reality Test
-3. ABC Test (used in CA and some other states)
+3. ABC Test (CA and some other states)
 
-Output:
-- Risk level: Low / Medium / High per test
-- Key factors driving risk
-- Recommended next step (fine as-is / review contract / escalate to legal)
+Output: Risk level (Low/Med/High) per test + Key factors + Recommended next step
 
-Remind me at the end: this is not legal advice.">You are a US employment compliance assistant. Help me pre-screen this work arrangement for potential misclassification risk. This is NOT a legal opinion — it is a risk flag for internal review before consulting our employment attorney.
+Remind me at the end: this is not legal advice.">You are a US employment compliance assistant. Pre-screen this work arrangement for misclassification risk. This is NOT a legal opinion — a risk flag for internal review before consulting our employment attorney.
 
-Work arrangement details (general — no names or exact figures):
+Work arrangement (general — no names or exact figures):
 - Type of work: [e.g., software development / data analysis / IT support]
 - Duration: [e.g., ongoing / project-based / defined end date]
 - Work location / hours: [e.g., set hours required / works own schedule / on-site required]
@@ -1805,52 +1401,24 @@ Work arrangement details (general — no names or exact figures):
 - Payment method: [hourly / fixed per project / monthly retainer]
 
 Evaluate against:
-1. IRS Common Law Test (behavioral / financial / type of relationship)
+1. IRS Common Law Test
 2. DOL Economic Reality Test
-3. ABC Test (used in CA and some other states)
+3. ABC Test (CA and some other states)
 
-Output:
-- Risk level: Low / Medium / High per test
-- Key factors driving risk
-- Recommended next step (fine as-is / review contract / escalate to legal)
+Output: Risk level (Low/Med/High) per test + Key factors + Recommended next step
 
 Remind me at the end: this is not legal advice.</textarea>
-            <button class="prompt-tip-toggle" onclick="toggleTip(this)">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-              Why this prompt works
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
-            <div class="prompt-tip-box">
-              <strong>Why it works</strong>
-              1099 misclassification is one of the highest-risk legal exposures in IT staffing. This prompt applies all three major US tests simultaneously — something most non-lawyers don't know to do. It's designed as a first-pass flag, not a replacement for legal counsel, which is why the "not legal advice" reminder is baked into the prompt itself.
-            </div>
-            <div class="actions">
-              <button class="btn-copy">📋 Copy Prompt</button>
-              <button class="btn-reset">↺ Reset</button>
-              <span class="status"></span>
-            </div>
+            <button class="prompt-tip-toggle" onclick="toggleTip(this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Why this prompt works<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
+            <div class="prompt-tip-box"><strong>Why it works</strong>1099 misclassification is one of the highest-risk legal exposures in IT staffing. This prompt applies all three major US tests simultaneously. It's designed as a first-pass flag, not a replacement for legal counsel.</div>
+            <div class="actions"><button class="btn-copy">📋 Copy Prompt</button><button class="btn-reset">↺ Reset</button><span class="status"></span></div>
           </div>
         </div>
 
-        <!-- Accounts 4: Collections Sequence (NEW) -->
-        <div class="card" data-category="Accounts" data-title="Collections Follow-up Email Sequence" data-search="collections aged receivables overdue invoice follow up AR payment">
+        <div class="card" id="card-acc-4" data-category="Accounts" data-title="Collections Follow-up Email Sequence" data-search="collections aged receivables overdue invoice follow up AR payment">
           <div class="card-top">
-            <div class="security-banner">
-              <div class="security-banner-icon">🔒</div>
-              <div class="security-banner-text">
-                <strong>Security Required Before Use</strong>
-                Use client codes (CLIENT_A), not real company or contact names. Use rounded invoice amounts.
-              </div>
-            </div>
-            <div class="badges">
-              <span class="badge badge--lilac">Accounts</span>
-              <span class="badge badge--green">NEW</span>
-            </div>
-            <div class="model-row">
-              <span class="model-label">Best in:</span>
-              <span class="model-pill best">Claude</span>
-              <span class="model-pill">ChatGPT-4o</span>
-            </div>
+            <div class="security-banner"><div class="security-banner-icon">🔒</div><div class="security-banner-text"><strong>Security Required Before Use</strong>Use client codes (CLIENT_A), not real company or contact names. Use rounded invoice amounts.</div></div>
+            <div class="badges"><span class="badge badge--lilac">Accounts</span><span class="badge badge--green">NEW</span></div>
+            <div class="model-row"><span class="model-label">Best in:</span><span class="model-pill best">Claude</span><span class="model-pill">ChatGPT-4o</span></div>
             <h3 style="margin-top:12px;">4. Collections Follow-up Email Sequence</h3>
             <p class="desc">A 3-touch AR collections sequence for overdue invoices — from polite reminder to firm final notice — that preserves the client relationship.</p>
           </div>
@@ -1862,27 +1430,13 @@ Context:
 - Client type: [e.g., mid-size tech company — use CLIENT_A]
 - Invoice age: [e.g., 45 days overdue / 60 days / 90 days]
 - Payment terms: [e.g., Net 30]
-- Amount range: [use general range, e.g., $10K–$50K — do not include exact amount]
+- Amount range: [general range — do not include exact amount]
 - Relationship: [strong / neutral / rocky]
 - Prior contact: [have we emailed before / called / no contact yet]
 
-Email 1 — Friendly Reminder (Day 1):
-- Assume good faith — could be an oversight
-- Reference invoice period and amount range only
-- Include payment instructions placeholder
-- Under 100 words
-
-Email 2 — Firm Follow-up (Day 7 if no response):
-- More direct, still professional
-- Note impact on our services if unresolved
-- Offer to discuss if there's a dispute
-- Under 120 words
-
-Email 3 — Final Notice (Day 14 if still no response):
-- Clear and firm — this is the last step before escalation
-- State next step (e.g., credit hold, late fee, legal referral) without being threatening
-- Leave door open for payment plan
-- Under 100 words
+Email 1 — Friendly Reminder (Day 1): Assume good faith. Under 100 words.
+Email 2 — Firm Follow-up (Day 7): More direct, still professional. Offer to discuss if there's a dispute. Under 120 words.
+Email 3 — Final Notice (Day 14): Clear and firm. State next step without being threatening. Leave door open for payment plan. Under 100 words.
 
 Tone across all: professional, firm, relationship-preserving. No aggressive language.">Write a 3-email AR collections sequence for an overdue invoice.
 
@@ -1890,65 +1444,26 @@ Context:
 - Client type: [e.g., mid-size tech company — use CLIENT_A]
 - Invoice age: [e.g., 45 days overdue / 60 days / 90 days]
 - Payment terms: [e.g., Net 30]
-- Amount range: [use general range, e.g., $10K–$50K — do not include exact amount]
+- Amount range: [general range — do not include exact amount]
 - Relationship: [strong / neutral / rocky]
 - Prior contact: [have we emailed before / called / no contact yet]
 
-Email 1 — Friendly Reminder (Day 1):
-- Assume good faith — could be an oversight
-- Reference invoice period and amount range only
-- Include payment instructions placeholder
-- Under 100 words
-
-Email 2 — Firm Follow-up (Day 7 if no response):
-- More direct, still professional
-- Note impact on our services if unresolved
-- Offer to discuss if there's a dispute
-- Under 120 words
-
-Email 3 — Final Notice (Day 14 if still no response):
-- Clear and firm — this is the last step before escalation
-- State next step (e.g., credit hold, late fee, legal referral) without being threatening
-- Leave door open for payment plan
-- Under 100 words
+Email 1 — Friendly Reminder (Day 1): Assume good faith. Under 100 words.
+Email 2 — Firm Follow-up (Day 7): More direct, still professional. Offer to discuss if there's a dispute. Under 120 words.
+Email 3 — Final Notice (Day 14): Clear and firm. State next step without being threatening. Leave door open for payment plan. Under 100 words.
 
 Tone across all: professional, firm, relationship-preserving. No aggressive language.</textarea>
-            <button class="prompt-tip-toggle" onclick="toggleTip(this)">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-              Why this prompt works
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
-            <div class="prompt-tip-box">
-              <strong>Why it works</strong>
-              IT staffing firms run 60–90 day payment cycles, making AR collections a monthly reality. The 3-tier escalation preserves the relationship at each step — most clients pay after Email 2 when they see firm-but-professional language. Email 3's "payment plan" offer often unlocks stuck invoices without going to legal.
-            </div>
-            <div class="actions">
-              <button class="btn-copy">📋 Copy Prompt</button>
-              <button class="btn-reset">↺ Reset</button>
-              <span class="status"></span>
-            </div>
+            <button class="prompt-tip-toggle" onclick="toggleTip(this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Why this prompt works<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
+            <div class="prompt-tip-box"><strong>Why it works</strong>IT staffing firms run 60–90 day payment cycles, making AR collections a monthly reality. The 3-tier escalation preserves the relationship at each step. Email 3's "payment plan" offer often unlocks stuck invoices without going to legal.</div>
+            <div class="actions"><button class="btn-copy">📋 Copy Prompt</button><button class="btn-reset">↺ Reset</button><span class="status"></span></div>
           </div>
         </div>
 
-        <!-- Accounts 5: Anomaly Detector -->
-        <div class="card" data-category="Accounts" data-title="Anomaly & Duplicate Detector" data-search="anomaly duplicate detect fraud flag unusual spend pattern">
+        <div class="card" id="card-acc-5" data-category="Accounts" data-title="Anomaly & Duplicate Detector" data-search="anomaly duplicate detect fraud flag unusual spend pattern">
           <div class="card-top">
-            <div class="security-banner">
-              <div class="security-banner-icon">🔒</div>
-              <div class="security-banner-text">
-                <strong>Security Required Before Use</strong>
-                Replace all vendor and employee names with codes. Round exact amounts. Remove invoice numbers and replace with sequential refs.
-              </div>
-            </div>
-            <div class="badges">
-              <span class="badge badge--lilac">Accounts</span>
-              <span class="badge badge--green">Risk Control</span>
-            </div>
-            <div class="model-row">
-              <span class="model-label">Best in:</span>
-              <span class="model-pill best">ChatGPT-4o</span>
-              <span class="model-pill">Claude</span>
-            </div>
+            <div class="security-banner"><div class="security-banner-icon">🔒</div><div class="security-banner-text"><strong>Security Required Before Use</strong>Replace all vendor and employee names with codes. Round exact amounts. Remove invoice numbers and replace with sequential refs.</div></div>
+            <div class="badges"><span class="badge badge--lilac">Accounts</span><span class="badge badge--green">Risk Control</span></div>
+            <div class="model-row"><span class="model-label">Best in:</span><span class="model-pill best">ChatGPT-4o</span><span class="model-pill">Claude</span></div>
             <h3 style="margin-top:12px;">5. Anomaly & Duplicate Detector</h3>
             <p class="desc">Scan a transaction dataset for duplicates, unusual patterns, and policy violations before month-end close.</p>
           </div>
@@ -1991,41 +1506,17 @@ Output:
 - Top 3 recommended audit actions
 
 Keep all vendor and approver references anonymized in output.</textarea>
-            <button class="prompt-tip-toggle" onclick="toggleTip(this)">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-              Why this prompt works
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
-            <div class="prompt-tip-box">
-              <strong>Why it works</strong>
-              The "just below threshold" pattern is one of the most reliable fraud signals in AP — it suggests someone knows the approval limit and is deliberately staying under it. AI is excellent at spotting this pattern across large datasets where a human reviewer would miss it.
-            </div>
-            <div class="actions">
-              <button class="btn-copy">📋 Copy Prompt</button>
-              <button class="btn-reset">↺ Reset</button>
-              <span class="status"></span>
-            </div>
+            <button class="prompt-tip-toggle" onclick="toggleTip(this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Why this prompt works<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
+            <div class="prompt-tip-box"><strong>Why it works</strong>The "just below threshold" pattern is one of the most reliable fraud signals in AP — it suggests someone knows the approval limit and is deliberately staying under it. AI is excellent at spotting this across large datasets.</div>
+            <div class="actions"><button class="btn-copy">📋 Copy Prompt</button><button class="btn-reset">↺ Reset</button><span class="status"></span></div>
           </div>
         </div>
 
-        <!-- Accounts 6: Spend Categorization -->
-        <div class="card" data-category="Accounts" data-title="Spend Categorization" data-search="spend category classification gl code taxonomy expense gaap">
+        <div class="card" id="card-acc-6" data-category="Accounts" data-title="Spend Categorization" data-search="spend category classification gl code taxonomy expense gaap">
           <div class="card-top">
-            <div class="security-banner">
-              <div class="security-banner-icon">🔒</div>
-              <div class="security-banner-text">
-                <strong>Security Required Before Use</strong>
-                Use vendor codes, not real names. Round amounts. Remove any employee or client identifiers from descriptions.
-              </div>
-            </div>
-            <div class="badges">
-              <span class="badge badge--lilac">Accounts</span>
-            </div>
-            <div class="model-row">
-              <span class="model-label">Best in:</span>
-              <span class="model-pill best">ChatGPT-4o</span>
-              <span class="model-pill">Claude</span>
-            </div>
+            <div class="security-banner"><div class="security-banner-icon">🔒</div><div class="security-banner-text"><strong>Security Required Before Use</strong>Use vendor codes, not real names. Round amounts. Remove any employee or client identifiers from descriptions.</div></div>
+            <div class="badges"><span class="badge badge--lilac">Accounts</span></div>
+            <div class="model-row"><span class="model-label">Best in:</span><span class="model-pill best">ChatGPT-4o</span><span class="model-pill">Claude</span></div>
             <h3 style="margin-top:12px;">6. Spend Categorization</h3>
             <p class="desc">Classify a batch of transactions into spend categories and GL codes. Saves hours of manual coding each month-end.</p>
           </div>
@@ -2054,42 +1545,17 @@ Use standard US GAAP categories: COGS, SG&A, R&D, Capex, Prepaids, Accruals.
 Flag any needing human review with reason.
 Group by category at end with subtotals.
 Keep all vendor references anonymized.</textarea>
-            <button class="prompt-tip-toggle" onclick="toggleTip(this)">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-              Why this prompt works
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
-            <div class="prompt-tip-box">
-              <strong>Why it works</strong>
-              The Confidence column is the key feature here. It tells you which categorizations to trust immediately vs. which ones to double-check. Low-confidence items are usually edge cases (e.g., a software subscription that could be SG&A or R&D) that benefit from human judgment.
-            </div>
-            <div class="actions">
-              <button class="btn-copy">📋 Copy Prompt</button>
-              <button class="btn-reset">↺ Reset</button>
-              <span class="status"></span>
-            </div>
+            <button class="prompt-tip-toggle" onclick="toggleTip(this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Why this prompt works<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
+            <div class="prompt-tip-box"><strong>Why it works</strong>The Confidence column tells you which categorizations to trust immediately vs. which ones to double-check. Low-confidence items are usually edge cases that benefit from human judgment.</div>
+            <div class="actions"><button class="btn-copy">📋 Copy Prompt</button><button class="btn-reset">↺ Reset</button><span class="status"></span></div>
           </div>
         </div>
 
-        <!-- Accounts 7: Month-End Close -->
-        <div class="card" data-category="Accounts" data-title="Month-End Close Assistant" data-search="month end close checklist reconciliation accrual journal entry controller">
+        <div class="card" id="card-acc-7" data-category="Accounts" data-title="Month-End Close Assistant" data-search="month end close checklist reconciliation accrual journal entry controller">
           <div class="card-top">
-            <div class="security-banner">
-              <div class="security-banner-icon">🔒</div>
-              <div class="security-banner-text">
-                <strong>Security Required Before Use</strong>
-                Describe your company in general terms only. Use revenue ranges, not exact figures. No client or employee names.
-              </div>
-            </div>
-            <div class="badges">
-              <span class="badge badge--lilac">Accounts</span>
-              <span class="badge badge--amber">Monthly</span>
-            </div>
-            <div class="model-row">
-              <span class="model-label">Best in:</span>
-              <span class="model-pill best">Claude</span>
-              <span class="model-pill best">ChatGPT-4o</span>
-            </div>
+            <div class="security-banner"><div class="security-banner-icon">🔒</div><div class="security-banner-text"><strong>Security Required Before Use</strong>Describe your company in general terms only. Use revenue ranges, not exact figures. No client or employee names.</div></div>
+            <div class="badges"><span class="badge badge--lilac">Accounts</span><span class="badge badge--amber">Monthly</span></div>
+            <div class="model-row"><span class="model-label">Best in:</span><span class="model-pill best">Claude</span><span class="model-pill best">ChatGPT-4o</span></div>
             <h3 style="margin-top:12px;">7. Month-End Close Assistant</h3>
             <p class="desc">Tailored month-end close checklist, likely accruals, and journal entry descriptions — built around your specific situation.</p>
           </div>
@@ -2134,42 +1600,17 @@ Generate:
 3. Journal entry descriptions (debit/credit accounts) for top 3 accruals
 4. Common close mistakes for a staffing company to check for
 5. CFO sign-off checklist (5 items)</textarea>
-            <button class="prompt-tip-toggle" onclick="toggleTip(this)">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-              Why this prompt works
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
-            <div class="prompt-tip-box">
-              <strong>Why it works</strong>
-              The Day -5 to Day +2 sequencing is what makes this genuinely useful vs. a generic checklist. It tells you not just what to do, but when. The "staffing-specific mistakes" section catches things like unbilled revenue from contractors who submitted timesheets late — a cash flow leak unique to this industry.
-            </div>
-            <div class="actions">
-              <button class="btn-copy">📋 Copy Prompt</button>
-              <button class="btn-reset">↺ Reset</button>
-              <span class="status"></span>
-            </div>
+            <button class="prompt-tip-toggle" onclick="toggleTip(this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Why this prompt works<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
+            <div class="prompt-tip-box"><strong>Why it works</strong>The Day -5 to Day +2 sequencing is what makes this genuinely useful vs. a generic checklist. The "staffing-specific mistakes" section catches things like unbilled revenue from contractors who submitted timesheets late — a cash flow leak unique to this industry.</div>
+            <div class="actions"><button class="btn-copy">📋 Copy Prompt</button><button class="btn-reset">↺ Reset</button><span class="status"></span></div>
           </div>
         </div>
 
-        <!-- Accounts 8: Vendor Risk -->
-        <div class="card" data-category="Accounts" data-title="Vendor Risk Assessment" data-search="vendor risk assessment new supplier due diligence onboarding soc2">
+        <div class="card" id="card-acc-8" data-category="Accounts" data-title="Vendor Risk Assessment" data-search="vendor risk assessment new supplier due diligence onboarding soc2">
           <div class="card-top">
-            <div class="security-banner">
-              <div class="security-banner-icon">🔒</div>
-              <div class="security-banner-text">
-                <strong>Security Required Before Use</strong>
-                Use vendor codes. Describe services in general terms. Do not include contract pricing or exact spend figures.
-              </div>
-            </div>
-            <div class="badges">
-              <span class="badge badge--lilac">Accounts</span>
-              <span class="badge badge--green">Risk</span>
-            </div>
-            <div class="model-row">
-              <span class="model-label">Best in:</span>
-              <span class="model-pill best">Claude</span>
-              <span class="model-pill">ChatGPT-4o</span>
-            </div>
+            <div class="security-banner"><div class="security-banner-icon">🔒</div><div class="security-banner-text"><strong>Security Required Before Use</strong>Use vendor codes. Describe services in general terms. Do not include contract pricing or exact spend figures.</div></div>
+            <div class="badges"><span class="badge badge--lilac">Accounts</span><span class="badge badge--green">Risk</span></div>
+            <div class="model-row"><span class="model-label">Best in:</span><span class="model-pill best">Claude</span><span class="model-pill">ChatGPT-4o</span></div>
             <h3 style="margin-top:12px;">8. Vendor Risk Assessment</h3>
             <p class="desc">Assess a new or existing vendor's risk profile across financial, operational, data, and compliance dimensions before onboarding or renewal.</p>
           </div>
@@ -2186,11 +1627,11 @@ Single source / alternatives: [Yes/No]
 Assess across:
 1. Financial risk: concentration, single-source dependency
 2. Operational risk: SLA adequacy, single point of failure
-3. Data/security risk (if applicable): SOC 2, encryption, breach history
-4. Compliance risk: US labor law, GDPR if applicable, state-level reqs
+3. Data/security risk: SOC 2, encryption, breach history
+4. Compliance risk: US labor law, GDPR if applicable
 5. Reputational risk: industry standing
 
-Output: Risk scorecard (Low/Med/High per dimension) + Overall rating + Top 3 mitigation actions + Any contract clauses to add at renewal">You are a US vendor risk analyst. Assess this vendor (use VENDOR_A throughout).
+Output: Risk scorecard (Low/Med/High per dimension) + Overall rating + Top 3 mitigation actions + Contract clauses to add at renewal">You are a US vendor risk analyst. Assess this vendor (use VENDOR_A throughout).
 
 What they provide: [e.g., cloud infrastructure / background screening / payroll software]
 Annual spend range: [general range]
@@ -2201,37 +1642,26 @@ Single source / alternatives: [Yes/No]
 Assess across:
 1. Financial risk: concentration, single-source dependency
 2. Operational risk: SLA adequacy, single point of failure
-3. Data/security risk (if applicable): SOC 2, encryption, breach history
-4. Compliance risk: US labor law, GDPR if applicable, state-level reqs
+3. Data/security risk: SOC 2, encryption, breach history
+4. Compliance risk: US labor law, GDPR if applicable
 5. Reputational risk: industry standing
 
-Output: Risk scorecard (Low/Med/High per dimension) + Overall rating + Top 3 mitigation actions + Any contract clauses to add at renewal</textarea>
-            <button class="prompt-tip-toggle" onclick="toggleTip(this)">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-              Why this prompt works
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
-            <div class="prompt-tip-box">
-              <strong>Why it works</strong>
-              The "contract clauses to add at renewal" output is the sleeper value here. Most vendor risk reviews end at "medium risk — monitor." This prompt turns that into specific legal language to add to your next contract, converting analysis into action.
-            </div>
-            <div class="actions">
-              <button class="btn-copy">📋 Copy Prompt</button>
-              <button class="btn-reset">↺ Reset</button>
-              <span class="status"></span>
-            </div>
+Output: Risk scorecard (Low/Med/High per dimension) + Overall rating + Top 3 mitigation actions + Contract clauses to add at renewal</textarea>
+            <button class="prompt-tip-toggle" onclick="toggleTip(this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Why this prompt works<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
+            <div class="prompt-tip-box"><strong>Why it works</strong>The "contract clauses to add at renewal" output is the sleeper value here. Most vendor risk reviews end at "medium risk — monitor." This prompt turns that into specific legal language to add to your next contract, converting analysis into action.</div>
+            <div class="actions"><button class="btn-copy">📋 Copy Prompt</button><button class="btn-reset">↺ Reset</button><span class="status"></span></div>
           </div>
         </div>
 
-      </div><!-- /cards -->
-    </div><!-- /section accounts -->
+      </div>
+    </div>
 
     <div class="footer-note">
       [YOUR COMPANY] AI Training · v2.0 April 2026 · Copy prompts to ChatGPT, Claude, or Gemini · For sensitive data, run Ollama locally · This handbook contains no confidential information
     </div>
   </main>
-</div><!-- /layout -->
-</div><!-- /shell -->
+</div>
+</div>
 
 <script>
 (function () {
@@ -2265,20 +1695,81 @@ Output: Risk scorecard (Low/Med/High per dimension) + Overall rating + Top 3 mit
     }
   }
 
-  /* Categories */
+  /* ===== BUILD SIDEBAR with dept groups + prompt sub-links ===== */
+  const deptMeta = {
+    'HR / Recruiters': { icon: '👥', color: 'var(--teal)' },
+    'Sales':           { icon: '💼', color: 'var(--amber)' },
+    'Accounts':        { icon: '💰', color: 'var(--lilac)' },
+  };
+
   const categories = [...new Set(cards.map(c => c.dataset.category))];
+
+  // Populate department filter dropdown
   categories.forEach(cat => {
     const opt = document.createElement('option');
     opt.value = cat; opt.textContent = cat;
     categoryFilter.appendChild(opt);
+  });
 
-    const link = document.createElement('a');
-    link.href = '#section-' + slug(cat);
-    link.textContent = cat;
-    link.className = 'category-link';
-    link.dataset.category = cat;
-    link.addEventListener('click', () => { categoryFilter.value = cat; applyFilters(); });
-    categoryNav.appendChild(link);
+  // Build sidebar dept groups
+  categories.forEach((cat, catIdx) => {
+    const catCards = cards.filter(c => c.dataset.category === cat);
+    const meta = deptMeta[cat] || { icon: '📁', color: 'var(--teal)' };
+
+    const group = document.createElement('div');
+    group.className = 'dept-group';
+    group.dataset.category = cat;
+
+    // Toggle button
+    const toggle = document.createElement('button');
+    toggle.className = 'dept-toggle' + (catIdx === 0 ? ' open' : '');
+    toggle.innerHTML = `
+      <div class="dept-toggle-left">
+        <span class="dept-icon">${meta.icon}</span>
+        <span>${cat}</span>
+      </div>
+      <span class="dept-count">${catCards.length}</span>
+      <svg class="dept-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+    `;
+
+    // Prompt links list
+    const linksList = document.createElement('div');
+    linksList.className = 'prompt-links' + (catIdx === 0 ? ' open' : '');
+
+    catCards.forEach((card, i) => {
+      const title = card.dataset.title || `Prompt ${i + 1}`;
+      const link = document.createElement('a');
+      link.className = 'prompt-link';
+      link.href = '#' + card.id;
+      link.dataset.cardId = card.id;
+      link.innerHTML = `<span class="prompt-num">${i + 1}</span><span>${title}</span>`;
+
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // Brief highlight
+        card.style.boxShadow = '0 0 0 3px rgba(10,107,104,.4), var(--shadow-lg)';
+        setTimeout(() => { card.style.boxShadow = ''; }, 1200);
+      });
+
+      linksList.appendChild(link);
+    });
+
+    // Toggle open/close
+    toggle.addEventListener('click', () => {
+      const isOpen = toggle.classList.contains('open');
+      toggle.classList.toggle('open', !isOpen);
+      linksList.classList.toggle('open', !isOpen);
+      // Also filter to this category
+      if (!isOpen) {
+        categoryFilter.value = cat;
+        applyFilters();
+      }
+    });
+
+    group.appendChild(toggle);
+    group.appendChild(linksList);
+    categoryNav.appendChild(group);
   });
 
   /* Metrics */
@@ -2313,6 +1804,38 @@ Output: Risk scorecard (Low/Med/High per dimension) + Overall rating + Top 3 mit
     });
   });
 
+  /* ===== SCROLL SPY — highlight active prompt link ===== */
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        document.querySelectorAll('.prompt-link').forEach(l => {
+          l.classList.toggle('active', l.dataset.cardId === id);
+        });
+        // Also open the right dept group if closed
+        const card = entry.target;
+        const cat = card.dataset.category;
+        document.querySelectorAll('.dept-group').forEach(group => {
+          if (group.dataset.category === cat) {
+            const toggle = group.querySelector('.dept-toggle');
+            const links = group.querySelector('.prompt-links');
+            if (!toggle.classList.contains('open')) {
+              toggle.classList.add('open');
+              links.classList.add('open');
+            }
+          }
+        });
+        // Scroll the active link into view within the sidebar
+        const activeLink = document.querySelector(`.prompt-link[data-card-id="${id}"]`);
+        if (activeLink) {
+          activeLink.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        }
+      }
+    });
+  }, { threshold: 0.2, rootMargin: '-100px 0px -50% 0px' });
+
+  cards.forEach(card => observer.observe(card));
+
   /* Search & Filter */
   function applyFilters() {
     const query    = searchInput.value.trim().toLowerCase();
@@ -2337,8 +1860,27 @@ Output: Risk scorecard (Low/Med/High per dimension) + Overall rating + Top 3 mit
       sec.classList.toggle('hidden', !anyVisible);
     });
 
-    document.querySelectorAll('.category-link').forEach(link => {
-      link.classList.toggle('active', selected !== 'all' && link.dataset.category === selected);
+    // Update sidebar dept visibility
+    document.querySelectorAll('.dept-group').forEach(group => {
+      const cat = group.dataset.category;
+      const catCards = cards.filter(c => c.dataset.category === cat);
+      const anyVisible = catCards.some(c => !c.classList.contains('hidden'));
+      group.style.display = anyVisible ? '' : 'none';
+
+      // Show/hide individual prompt links based on visibility
+      const links = group.querySelectorAll('.prompt-link');
+      links.forEach(link => {
+        const cardEl = document.getElementById(link.dataset.cardId);
+        link.style.display = cardEl && !cardEl.classList.contains('hidden') ? '' : 'none';
+      });
+
+      // Auto-open matching dept
+      const toggle = group.querySelector('.dept-toggle');
+      const linksList = group.querySelector('.prompt-links');
+      if (selected !== 'all' && cat === selected) {
+        toggle.classList.add('open');
+        linksList.classList.add('open');
+      }
     });
   }
 
@@ -2419,7 +1961,6 @@ Output: Risk scorecard (Low/Med/High per dimension) + Overall rating + Top 3 mit
   /* ---- RESET ALL ---- */
   window.resetAllPrompts = function () {
     if (!confirm('Reset ALL prompts to their original templates?\n\nThis will clear any injected JD, resume, or job title from every prompt card.')) return;
-
     cards.forEach(card => {
       const area = card.querySelector('textarea');
       if (area && area.dataset.original) {
@@ -2427,11 +1968,9 @@ Output: Risk scorecard (Low/Med/High per dimension) + Overall rating + Top 3 mit
         card.classList.remove('inserted');
       }
     });
-
     document.getElementById('global-jd').value = '';
     document.getElementById('global-resume').value = '';
     document.getElementById('global-jobtitle').value = '';
-
     const allResetBtns = document.querySelectorAll('[onclick="resetAllPrompts()"]');
     allResetBtns.forEach(btn => {
       const o = btn.textContent;
