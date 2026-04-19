@@ -1695,32 +1695,57 @@ Output: Risk scorecard (Low/Med/High per dimension) + Overall rating + Top 3 mit
     }
   }
 
-  /* ===== BUILD SIDEBAR with dept groups + prompt sub-links ===== */
+  /* ===== BUILD SIDEBAR ===== */
   const deptMeta = {
-    'HR / Recruiters': { icon: '👥', color: 'var(--teal)' },
-    'Sales':           { icon: '💼', color: 'var(--amber)' },
-    'Accounts':        { icon: '💰', color: 'var(--lilac)' },
+    'HR / Recruiters': { icon: '👥' },
+    'Sales':           { icon: '💼' },
+    'Accounts':        { icon: '💰' },
   };
 
   const categories = [...new Set(cards.map(c => c.dataset.category))];
 
-  // Populate department filter dropdown
+  /* Populate department filter dropdown */
   categories.forEach(cat => {
     const opt = document.createElement('option');
     opt.value = cat; opt.textContent = cat;
     categoryFilter.appendChild(opt);
   });
 
-  // Build sidebar dept groups
+  /* ---- "Show All" link at top of sidebar ---- */
+  const showAllWrap = document.createElement('div');
+  showAllWrap.style.cssText = 'margin-bottom:8px;';
+  const showAllBtn = document.createElement('button');
+  showAllBtn.className = 'dept-toggle open';
+  showAllBtn.style.cssText = 'font-weight:700;color:var(--teal-2);background:var(--teal-pale);border-radius:11px;width:100%;';
+  showAllBtn.innerHTML = `
+    <div class="dept-toggle-left">
+      <span class="dept-icon" style="font-size:1rem;">📋</span>
+      <span>All Prompts</span>
+    </div>
+    <span class="dept-count" style="background:rgba(10,107,104,.2);color:var(--teal-2);">${cards.length}</span>
+  `;
+  showAllBtn.addEventListener('click', () => {
+    categoryFilter.value = 'all';
+    searchInput.value = '';
+    applyFilters();
+    /* open all dept groups */
+    document.querySelectorAll('.dept-toggle').forEach(t => {
+      t.classList.add('open');
+      t.nextElementSibling.classList.add('open');
+    });
+  });
+  showAllWrap.appendChild(showAllBtn);
+  categoryNav.appendChild(showAllWrap);
+
+  /* ---- Dept groups with prompt sub-links ---- */
   categories.forEach((cat, catIdx) => {
     const catCards = cards.filter(c => c.dataset.category === cat);
-    const meta = deptMeta[cat] || { icon: '📁', color: 'var(--teal)' };
+    const meta = deptMeta[cat] || { icon: '📁' };
 
     const group = document.createElement('div');
     group.className = 'dept-group';
     group.dataset.category = cat;
 
-    // Toggle button
     const toggle = document.createElement('button');
     toggle.className = 'dept-toggle' + (catIdx === 0 ? ' open' : '');
     toggle.innerHTML = `
@@ -1732,7 +1757,6 @@ Output: Risk scorecard (Low/Med/High per dimension) + Overall rating + Top 3 mit
       <svg class="dept-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
     `;
 
-    // Prompt links list
     const linksList = document.createElement('div');
     linksList.className = 'prompt-links' + (catIdx === 0 ? ' open' : '');
 
@@ -1747,7 +1771,6 @@ Output: Risk scorecard (Low/Med/High per dimension) + Overall rating + Top 3 mit
       link.addEventListener('click', (e) => {
         e.preventDefault();
         card.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        // Brief highlight
         card.style.boxShadow = '0 0 0 3px rgba(10,107,104,.4), var(--shadow-lg)';
         setTimeout(() => { card.style.boxShadow = ''; }, 1200);
       });
@@ -1755,16 +1778,11 @@ Output: Risk scorecard (Low/Med/High per dimension) + Overall rating + Top 3 mit
       linksList.appendChild(link);
     });
 
-    // Toggle open/close
+    /* Toggle only expands/collapses — does NOT touch the category filter */
     toggle.addEventListener('click', () => {
       const isOpen = toggle.classList.contains('open');
       toggle.classList.toggle('open', !isOpen);
       linksList.classList.toggle('open', !isOpen);
-      // Also filter to this category
-      if (!isOpen) {
-        categoryFilter.value = cat;
-        applyFilters();
-      }
     });
 
     group.appendChild(toggle);
@@ -1772,7 +1790,7 @@ Output: Risk scorecard (Low/Med/High per dimension) + Overall rating + Top 3 mit
     categoryNav.appendChild(group);
   });
 
-  /* Metrics */
+  /* ===== METRICS ===== */
   const metricData = [
     ['Departments', String(categories.length)],
     ['Prompt cards', String(cards.length)],
@@ -1786,7 +1804,7 @@ Output: Risk scorecard (Low/Med/High per dimension) + Overall rating + Top 3 mit
     metricsEl.appendChild(div);
   });
 
-  /* Init cards */
+  /* ===== INIT CARDS ===== */
   cards.forEach(card => {
     const area = card.querySelector('textarea');
     if (!area.dataset.original) area.dataset.original = area.value;
@@ -1804,39 +1822,24 @@ Output: Risk scorecard (Low/Med/High per dimension) + Overall rating + Top 3 mit
     });
   });
 
-  /* ===== SCROLL SPY — highlight active prompt link ===== */
+  /* ===== SCROLL SPY — only highlights active link, no layout side-effects ===== */
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         const id = entry.target.id;
+        /* Update active link highlight */
         document.querySelectorAll('.prompt-link').forEach(l => {
           l.classList.toggle('active', l.dataset.cardId === id);
         });
-        // Also open the right dept group if closed
-        const card = entry.target;
-        const cat = card.dataset.category;
-        document.querySelectorAll('.dept-group').forEach(group => {
-          if (group.dataset.category === cat) {
-            const toggle = group.querySelector('.dept-toggle');
-            const links = group.querySelector('.prompt-links');
-            if (!toggle.classList.contains('open')) {
-              toggle.classList.add('open');
-              links.classList.add('open');
-            }
-          }
-        });
-        // Scroll the active link into view within the sidebar
-        const activeLink = document.querySelector(`.prompt-link[data-card-id="${id}"]`);
-        if (activeLink) {
-          activeLink.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-        }
+        /* NOTE: no scrollIntoView on sidebar, no dept group open/close here.
+           That was causing the scroll hijack. Users open groups manually. */
       }
     });
-  }, { threshold: 0.2, rootMargin: '-100px 0px -50% 0px' });
+  }, { threshold: 0.25, rootMargin: '-110px 0px -45% 0px' });
 
   cards.forEach(card => observer.observe(card));
 
-  /* Search & Filter */
+  /* ===== SEARCH & FILTER ===== */
   function applyFilters() {
     const query    = searchInput.value.trim().toLowerCase();
     const selected = categoryFilter.value;
@@ -1860,34 +1863,20 @@ Output: Risk scorecard (Low/Med/High per dimension) + Overall rating + Top 3 mit
       sec.classList.toggle('hidden', !anyVisible);
     });
 
-    // Update sidebar dept visibility
+    /* Update sidebar prompt-link visibility only — never hide dept groups */
     document.querySelectorAll('.dept-group').forEach(group => {
-      const cat = group.dataset.category;
-      const catCards = cards.filter(c => c.dataset.category === cat);
-      const anyVisible = catCards.some(c => !c.classList.contains('hidden'));
-      group.style.display = anyVisible ? '' : 'none';
-
-      // Show/hide individual prompt links based on visibility
       const links = group.querySelectorAll('.prompt-link');
       links.forEach(link => {
         const cardEl = document.getElementById(link.dataset.cardId);
-        link.style.display = cardEl && !cardEl.classList.contains('hidden') ? '' : 'none';
+        link.style.display = (cardEl && !cardEl.classList.contains('hidden')) ? '' : 'none';
       });
-
-      // Auto-open matching dept
-      const toggle = group.querySelector('.dept-toggle');
-      const linksList = group.querySelector('.prompt-links');
-      if (selected !== 'all' && cat === selected) {
-        toggle.classList.add('open');
-        linksList.classList.add('open');
-      }
     });
   }
 
   searchInput.addEventListener('input', applyFilters);
   categoryFilter.addEventListener('change', applyFilters);
 
-  /* Copy Visible */
+  /* ===== COPY VISIBLE ===== */
   btnCopyVisible.addEventListener('click', async () => {
     const text = cards
       .filter(c => !c.classList.contains('hidden'))
@@ -1904,13 +1893,13 @@ Output: Risk scorecard (Low/Med/High per dimension) + Overall rating + Top 3 mit
     } catch { alert('Could not copy — please allow clipboard access.'); }
   });
 
-  /* Jump to First */
+  /* ===== JUMP TO FIRST ===== */
   btnJumpFirst.addEventListener('click', () => {
     const first = cards.find(c => !c.classList.contains('hidden'));
     if (first) first.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 
-  /* Tip toggles */
+  /* ===== TIP TOGGLES ===== */
   window.toggleTip = function(btn) {
     const box = btn.nextElementSibling;
     const isOpen = box.classList.contains('visible');
@@ -1918,7 +1907,7 @@ Output: Risk scorecard (Low/Med/High per dimension) + Overall rating + Top 3 mit
     btn.classList.toggle('open', !isOpen);
   };
 
-  /* ---- GLOBAL INSERT ---- */
+  /* ===== GLOBAL INJECT ===== */
   window.insertGlobalJD = function () {
     const jd = document.getElementById('global-jd').value.trim();
     if (!jd) { alert('Please paste a Job Description first!'); return; }
@@ -1958,7 +1947,7 @@ Output: Risk scorecard (Low/Med/High per dimension) + Overall rating + Top 3 mit
     if (btn) { const o = btn.textContent; btn.textContent = `✓ Updated ${targets.length} prompts`; setTimeout(() => btn.textContent = o, 2200); }
   };
 
-  /* ---- RESET ALL ---- */
+  /* ===== RESET ALL ===== */
   window.resetAllPrompts = function () {
     if (!confirm('Reset ALL prompts to their original templates?\n\nThis will clear any injected JD, resume, or job title from every prompt card.')) return;
     cards.forEach(card => {
